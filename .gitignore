@@ -1,3 +1,5 @@
 /.idea/
+/src/replace_pip_vendor_urllib3/urllib3/
+/src/replace_pip_vendor_urllib3/urllib3-*/
 __pycache__/
 .DS_Store
