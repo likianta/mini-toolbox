@@ -8,7 +8,7 @@ from argsense import cli
 from lk_utils import subproc
 from lk_utils import xpath
 
-lk_root = xpath('../../..')
+lk_root = xpath('../../..', True)
 
 
 @cli.cmd()
@@ -22,6 +22,7 @@ def main(dirname: str) -> None:
     print(package, ':v2')
     
     file = f'{dir_}/dist/{dirname.replace("-", "_")}-{version}-py3-none-any.whl'
+    print(file)
     if not os.path.exists(file):
         print(f'poetry build {package}')
         os.chdir(dir_)
