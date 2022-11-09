@@ -13,16 +13,16 @@ print(lk_root)
 
 
 @cli.cmd()
-def main(dirname: str) -> None:
-    dir_ = f'{lk_root}/{dirname}'
+def main(package_name: str) -> None:
+    dir_ = f'{lk_root}/{package_name}'
     file = f'{dir_}/pyproject.toml'
     config = open(file, 'r').read()
     version = re.search(r'version = "(.+)"', config).group(1)
     
-    package = f'{dirname} {version}'
+    package = f'{package_name} {version}'
     print(package, ':v2')
     
-    file = f'{dir_}/dist/{dirname.replace("-", "_")}-{version}-py3-none-any.whl'
+    file = f'{dir_}/dist/{package_name.replace("-", "_")}-{version}-py3-none-any.whl'
     print(f'[u]{file}[/]', ':r')
     
     if not os.path.exists(file):
