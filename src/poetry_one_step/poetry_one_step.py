@@ -13,7 +13,11 @@ print(lk_root)
 
 
 @cli.cmd()
-def main(package_name: str) -> None:
+def main(package_name: str, no_deps=False) -> None:
+    """
+    kwargs:
+        no_deps (-d):
+    """
     dir_ = f'{lk_root}/{package_name}'
     file = f'{dir_}/pyproject.toml'
     config = open(file, 'r').read()
@@ -22,7 +26,9 @@ def main(package_name: str) -> None:
     package = f'{package_name} {version}'
     print(package, ':v2')
     
-    file = f'{dir_}/dist/{package_name.replace("-", "_")}-{version}-py3-none-any.whl'
+    file = '{}/dist/{}-{}-py3-none-any.whl'.format(
+        dir_, package_name.replace("-", "_"), version
+    )
     print(f'[u]{file}[/]', ':r')
     
     if not os.path.exists(file):
@@ -34,7 +40,13 @@ def main(package_name: str) -> None:
         )
     
     print(f'pip install {package}')
-    subproc.run_cmd_args('pip', 'install', file, verbose=True)
+    subproc.run_cmd_args(
+        *subproc.compose_cmd(
+            'pip', 'install', file,
+            ('--no-deps' if no_deps else '')
+        ),
+        verbose=True
+    )
     print('done', ':t')
 
 
