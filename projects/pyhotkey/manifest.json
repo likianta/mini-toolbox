@@ -1,0 +1,21 @@
+{
+    "appid": "pyhotkey",
+    "name": "Pyhotkey",
+    "version": "0.1.0",
+    "assets": {
+        "pyhotkey.py": ""
+    },
+    "dependencies": {
+        "keyboard": "",
+        "lk-logger": ""
+    },
+    "pypi": {},
+    "launcher": {
+        "script": "pyhotkey.py",
+        "icon": "",
+        "cli_tool": true,
+        "desktop": false,
+        "start_menu": false,
+        "show_console": true
+    }
+}
