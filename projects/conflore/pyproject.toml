@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "conflore"
+version = "0.1.0a2"
+description = ""
+authors = ["likianta <likianta@foxmail.com>"]
+license = "MIT"
+
+[[tool.poetry.source]]
+name = "tsinghua"
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
+default = true
+
+[tool.poetry.dependencies]
+python = "^3.8"
+hot-shelve = "*"
+lk-utils = "*"
+
+[build-system]
+requires = ["poetry"]
+build-backend = "poetry.masonry.api"
