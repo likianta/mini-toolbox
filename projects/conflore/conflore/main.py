@@ -18,6 +18,7 @@ class Conflore(FlatShelve):
         super().__init__(file)
         if need_init:
             self.update(default)
+        self._before_close = set()
     
     def __getitem__(self, key: str):
         previous_key, current_key = self._rsplit_key(key)
@@ -37,3 +38,16 @@ class Conflore(FlatShelve):
             else:
                 return KeyError
         return node
+    
+    def on_close(self, func: t.Callable) -> None:
+        self._before_close.add(func)
+    
+    def close(self) -> None:
+        for i, func in enumerate(self._before_close):
+            try:
+                func()
+            except Exception as e:
+                print(':v4', 'error in saving config on closed', i, func, e)
+                continue
+        self._before_close.clear()
+        super().close()
