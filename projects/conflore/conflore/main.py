@@ -14,7 +14,7 @@ class Conflore(FlatShelve):
         else:
             os.mkdir(path)
         file = f'{path}/__main__.db'
-        need_init = default and not os.path.exists(file)
+        need_init = default and not os.listdir(path)
         super().__init__(file)
         if need_init:
             self.update(default)
