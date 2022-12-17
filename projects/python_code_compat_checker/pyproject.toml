@@ -1,18 +1,17 @@
 [tool.poetry]
 name = "compatipy"
-version = "0.2.4"
+version = "0.3.0b0"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-argsense = "^0.4.2"
-astpretty = ""
-lk-logger = "^5.4.2"
-lk-utils = "^2.4.0"
-
-[tool.poetry.dev-dependencies]
+argsense = "*"
+astpretty = "*"
+lk-logger = "*"
+lk-utils = "*"
+typing-extensions = { version = "*", python = "<3.10" }
 
 [[tool.poetry.source]]
 name = "tsinghua"
@@ -20,5 +19,5 @@ url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
 default = true
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry"]
 build-backend = "poetry.core.masonry.api"
