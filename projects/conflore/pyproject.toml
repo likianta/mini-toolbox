@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "conflore"
-version = "0.1.0a7"
-description = ""
+version = "0.1.0"
+description = "Load and save configurations in a simple way."
 authors = ["likianta <likianta@foxmail.com>"]
 license = "MIT"
 
