@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "conflore"
-version = "0.1.0"
+version = "0.2.0b4"
 description = "Load and save configurations in a simple way."
 authors = ["likianta <likianta@foxmail.com>"]
 license = "MIT"
@@ -12,8 +12,10 @@ default = true
 
 [tool.poetry.dependencies]
 python = "^3.8"
-hot-shelve = "*"
-lk-utils = "*"
+pyyaml = { version = "*", optional = true }
+
+[tool.poetry.extras]
+yml = ["pyyaml"]  # pip install conflore[yml]
 
 [build-system]
 requires = ["poetry"]

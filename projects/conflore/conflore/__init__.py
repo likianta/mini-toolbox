@@ -1,1 +1,1 @@
-from .main import Conflore
+from .conflore import Conflore
