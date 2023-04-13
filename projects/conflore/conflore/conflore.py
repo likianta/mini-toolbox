@@ -12,18 +12,37 @@ class Conflore:
     _on_save_callbacks: t.Dict[str, t.Callable[[], t.Any]]
     _anonymous_callbacks: t.List[t.Callable[[], t.Any]]
     
-    def __init__(self, file: str, default: dict = None, auto_save=False):
+    def __init__(
+            self,
+            file: str,
+            default: dict = None,
+            auto_save=False,
+            **kwargs
+    ):
         """
         args:
             file: json, yaml, or pickle file.
+        kwargs:
+            version_number (int): if number is newer than the one in the file,
+                the file will be dropped.
         """
         self._anonymous_callbacks = []
         self._data = loads(file) if exists(file) else {}
         self._file = file
         self._on_save_callbacks = {}
         
-        if default and not exists(file):  # init
-            self._data.update(default)
+        if exists(file):
+            if v1 := kwargs.get('version_number'):
+                v0 = self._data.get('__conflore_version__', 0)
+                if v1 > v0:
+                    print(':p', f'auto drop config file "{file}" ({v1} > {v0})')
+                    self._data = {'__conflore_version__': v1, **(default or {})}
+                # else: do nothing
+            # else: do nothing
+        else:
+            self._data['__conflore_version__'] = kwargs.get('version_number', 0)
+            if default: self._data.update(default)
+        
         if auto_save:
             atexit.register(self.save)
     
