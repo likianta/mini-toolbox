@@ -4,7 +4,7 @@ import LKWidgets
 LKWindow {
     title: 'Markdown Image Paste'
     width: 480
-    height: 88
+    height: 108
 
     LKColumn {
         anchors {
@@ -12,17 +12,27 @@ LKWindow {
             margins: 12
         }
         alignment: 'left'
-
-        LKInput {
-            id: _assets_dir
+        
+        component MyInput: LKInput {
             width: parent.width
-            textColor: is_valid_path ? 'black' : 'red'
-            textHint: 'Input a dirpath to save images'
-
-            property bool is_valid_path: false
-
+            textColor: isValidPath ? 'black' : 'red'
+            property bool isValidPath: false
+        }
+        
+        MyInput {
+            id: _doc_path
+            width: parent.width
+            textHint: 'Input a dirpath to your document'
             onTextChanged: {
-                this.is_valid_path = pymain.update_assets_dirpath(this.text)
+                this.isValidPath = py.main.set_doc_root(this.text)
+            }
+        }
+        
+        MyInput {
+            id: _img_path
+            textHint: 'Input a dirpath to save images'
+            onTextChanged: {
+                this.isValidPath = py.main.set_img_root(this.text)
             }
         }
 
@@ -36,7 +46,7 @@ LKWindow {
             anchors.horizontalCenter: parent.horizontalCenter
             text: 'Dump image'
             onClicked: {
-                const link = pymain.dump_image()
+                const link = py.main.dump_image()
                 _mdtext.text = link
             }
         }
