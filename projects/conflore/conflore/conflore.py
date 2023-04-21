@@ -9,8 +9,8 @@ from .load_and_dump import loads
 class Conflore:
     _data: dict
     _file: str
-    _on_save_callbacks: t.Dict[str, t.Callable[[], t.Any]]
-    _anonymous_callbacks: t.List[t.Callable[[], t.Any]]
+    _on_save_callbacks: t.List[t.Callable[[], t.Any]]
+    _on_save_callbacks_kv: t.Dict[str, t.Callable[[], t.Any]]
     
     def __init__(
             self,
@@ -26,10 +26,10 @@ class Conflore:
             version_number (int): if number is newer than the one in the file,
                 the file will be dropped.
         """
-        self._anonymous_callbacks = []
+        self._on_save_callbacks = []
         self._data = loads(file) if exists(file) else {}
         self._file = file
-        self._on_save_callbacks = {}
+        self._on_save_callbacks_kv = {}
         
         if exists(file):
             if v1 := kwargs.get('version_number'):
@@ -68,13 +68,13 @@ class Conflore:
         """
         assert len(args) in (1, 2)
         if len(args) == 1:
-            self._on_save_callbacks[key] = args[0]
+            self._on_save_callbacks_kv[key] = args[0]
         else:
             obj, attr = args
-            self._on_save_callbacks[key] = lambda: getattr(obj, attr)
+            self._on_save_callbacks_kv[key] = lambda: getattr(obj, attr)
     
     def on_save(self, func: t.Callable[[], t.Any]) -> None:
-        self._anonymous_callbacks.append(func)
+        self._on_save_callbacks.append(func)
     
     def save(self, file: str = None) -> None:
         self._auto_save()
@@ -93,9 +93,12 @@ class Conflore:
                 node = node[key]
             return node, keys[-1]
         
-        for key_chain, callback in self._on_save_callbacks.items():
+        for key_chain, callback in self._on_save_callbacks_kv.items():
             node, key = get_node()
             node[key] = callback()
         
-        for callback in self._anonymous_callbacks:
-            callback()
+        for callback in self._on_save_callbacks:
+            try:
+                callback()
+            except Exception as e:
+                print(':lv4', e)
