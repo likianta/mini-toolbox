@@ -1,4 +1,5 @@
 /.idea/
+/projects/chrome_app_mode/__chrome_app_mode_temp_data__/
 /projects/replace_pip_vendor_urllib3/urllib3/
 /projects/replace_pip_vendor_urllib3/urllib3-*/
 __pycache__/
