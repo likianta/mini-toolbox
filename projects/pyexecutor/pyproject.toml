@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "pyx"
+description = ""
+version = "0.1.0b5"
+authors = ["Likianta <likianta@foxmail.com>"]
+
+[[tool.poetry.source]]
+name = "tsinghua"
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
+default = true
+
+[tool.poetry.dependencies]
+python = "^3.8"
+argsense = "*"
+lk-utils = "*"
+
+[tool.poetry.scripts]
+pyx = "pyx._bin:run"
+
+[build-system]
+requires = ["poetry"]
+build-backend = "poetry.masonry.api"
