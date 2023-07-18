@@ -1,9 +1,7 @@
-from typing import Any
+class FakeType:
 
+    def __getattr__(self, _) -> 'FakeType':
+        return self    
 
-class FakeTyping:
-    def __getattr__(self, item):
-        return Any
-    
-    # def __getitem__(self, item):
-    #     return self
+    def __getitem__(self, _) -> 'FakeType':
+        return self
