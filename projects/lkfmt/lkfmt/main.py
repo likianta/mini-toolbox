@@ -46,7 +46,7 @@ def fmt(file: str, inplace: bool = True, chdir: bool = False) -> str:
     code = autoflake.fix_code(
         code,
         remove_all_unused_imports=True,
-        ignore_pass_statements=True,
+        ignore_pass_statements=False,
         ignore_pass_after_docstring=False,
     )
     

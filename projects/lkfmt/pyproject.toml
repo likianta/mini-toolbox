@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "lkfmt"
-version = "0.1.0b6"
+version = "0.1.0b8"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.8"
 argsense = "*"
 autoflake = "*"
 black = "*"
