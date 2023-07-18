@@ -20,10 +20,10 @@ def fmt(file: str, inplace: bool = True, chdir: bool = False) -> str:
     assert file.endswith(('.py', '.txt'))
     if chdir:
         os.chdir(os.path.dirname(os.path.abspath(file)))
-
+    
     with open(file, 'r', encoding='utf-8') as f:
         code = origin_code = f.read()
-
+    
     code = black.format_str(
         code,
         mode=black.Mode(
@@ -51,14 +51,15 @@ def fmt(file: str, inplace: bool = True, chdir: bool = False) -> str:
     )
     
     code = lk_flavor.keep_indents(code)
-
+    code = lk_flavor.ensure_newline_at_eof(code)
+    
     if code == origin_code:
         print('[green dim]no code change[/]', ':rt')
         return code
-
+    
     if inplace:
         with open(file, 'w', encoding='utf-8') as f:
             f.write(code)
-
+    
     print('[green]reformat code done[/]', ':rt')
     return code

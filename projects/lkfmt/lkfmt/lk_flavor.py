@@ -1,14 +1,12 @@
 """
 likianta flavored code formatting style.
+    - ensure newline at the end of file
     - keep indents on empty lines
     - align dict key-value pairs by colon
     - align variable assignments by equal sign
 """
 import re
 import typing as t
-
-import lk_logger
-from lk_logger.scanner import get_all_blocks
 
 
 def keep_indents(code: str) -> str:
@@ -22,8 +20,7 @@ def keep_indents(code: str) -> str:
             if not curr_line:
                 if next_line:
                     yield '{}{}'.format(
-                        _leading_spaces.match(next_line).group(0),
-                        curr_line
+                        _leading_spaces.match(next_line).group(0), curr_line
                     )
                     continue
             yield curr_line
@@ -37,3 +34,7 @@ def align_dict_items(code: str) -> str:
 
 def align_vars_assignments(code: str) -> str:
     pass
+
+
+def ensure_newline_at_eof(code: str) -> str:
+    return code + '\n'
