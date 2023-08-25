@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "pysignal"
+version = "0.1.0b1"
+description = ""
+authors = ["likianta <likianta@foxmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[[tool.poetry.source]]
+name = "tsinghua"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+priority = "default"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
