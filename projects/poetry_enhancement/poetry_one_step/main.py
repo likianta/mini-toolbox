@@ -15,7 +15,7 @@ def by_given_name(package_name: str, no_deps=False) -> None:
     kwargs:
         no_deps (-d):
     """
-    lk_root = xpath('../../..', True)
+    lk_root = xpath('../../../..', True)
     dir_ = f'{lk_root}/{package_name}'
     print(package_name, dir_)
     assert os.path.exists(dir_)
