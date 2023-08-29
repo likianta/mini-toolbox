@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "mini-toolbox"
+version = "0.1.0"
+description = ""
+authors = ["likianta <likianta@foxmail.com>"]
+readme = "README.md"
+packages = [{include = "mini_toolbox"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+argsense = { url = "http://localhost:2006/argsense/argsense-1.0.0a16-py3-none-any.whl" }
+ipython = "*"
+lk-logger = { url = "http://localhost:2006/lk-logger/lk_logger-5.7.0a9-py3-none-any.whl" }
+lk-utils = { url = "http://localhost:2006/lk-utils/lk_utils-2.6.1-py3-none-any.whl" }
+pysignal = { url = "http://likianta.pro:2006/pysignal/pysignal-0.1.0-py3-none-any.whl" }
+watchdog = "*"
+
+[[tool.poetry.source]]
+name = "tsinghua"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+priority = "default"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

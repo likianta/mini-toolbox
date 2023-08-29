@@ -1,12 +1,14 @@
 [tool.poetry]
-name = "pysignal"
-version = "0.1.0"
+name = "watchpaths"
+version = "0.1.0b0"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
-license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
+lk-utils = "*"
+pysignal = { url = "http://likianta.pro:2006/pysignal/pysignal-0.1.0-py3-none-any.whl" }
+watchdog = "*"
 
 [[tool.poetry.source]]
 name = "tsinghua"
