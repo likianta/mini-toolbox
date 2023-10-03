@@ -4,11 +4,6 @@ from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 from types import FunctionType
 
-__all__ = [
-    'Signal',
-    'signal',
-]
-
 
 class T:
     _Event = t.Any
@@ -27,6 +22,10 @@ class T:
     )
     FuncArgsNum = int  # the number of arguments. 0-3
     Funcs = t.Dict[_FuncId, t.Tuple[Func, FuncArgsNum]]
+    
+    
+class config:  # noqa
+    use_thread_pool: bool = True
 
 
 # http://c.biancheng.net/view/2627.html
@@ -53,8 +52,11 @@ class Signal:
     def emit(self, *args) -> t.Optional[Future]:
         if not self._funcs: return
         # print(self._funcs, ':l')
-        future: Future = _pool.submit(self._emit, args)
-        return future
+        if config.use_thread_pool:
+            future: Future = _pool.submit(self._emit, args)
+            return future
+        else:
+            self._emit(args)
     
     def _emit(self, args: tuple) -> None:
         assert len(args) in (0, 1, 3)
@@ -100,6 +102,8 @@ class Signal:
                             # )
                     except Exception as e:
                         print(':e', e)
+                else:
+                    print('function prevented because out of propagation chain')
     
     # noinspection PyUnresolvedReferences
     def bind(self, func: T.Func) -> None:
