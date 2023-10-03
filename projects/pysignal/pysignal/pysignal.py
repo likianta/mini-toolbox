@@ -73,7 +73,7 @@ class Signal:
         
         # print(self._funcs, ':l')
         with _propagation_chain.locking(self):
-            for f, n in self._funcs.values():
+            for f, n in tuple(self._funcs.values()):
                 if _propagation_chain.check(f):
                     try:
                         if n == 0:
@@ -103,7 +103,9 @@ class Signal:
                     except Exception as e:
                         print(':e', e)
                 else:
-                    print('function prevented because out of propagation chain')
+                    print(
+                        'function prevented because out of propagation chain', f
+                    )
     
     # noinspection PyUnresolvedReferences
     def bind(self, func: T.Func) -> None:
