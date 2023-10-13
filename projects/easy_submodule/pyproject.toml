@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "easy-submodule"
+version = "0.1.0"
+description = ""
+authors = ["likianta <likianta@foxmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+argsense = "^0.5.3"
+lk-utils = { url = "http://likianta.pro:2006/lk-utils/lk_utils-2.7.1a1-py3-none-any.whl" }
+
+[[tool.poetry.source]]
+name = "tsinghua"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+priority = "default"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
