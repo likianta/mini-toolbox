@@ -2,6 +2,7 @@ import os.path
 
 from argsense import cli
 
+from .check import check_submodules
 from .clone import clone_submodules
 from .lock import lock_submodules
 from .profile import init_profile
@@ -16,6 +17,11 @@ def init(path: str = '.') -> None:
 @cli.cmd()
 def clone(path: str = '.') -> None:
     clone_submodules(_normpath(path))
+
+
+@cli.cmd()
+def check(path: str = '.') -> None:
+    check_submodules(_normpath(path))
 
 
 @cli.cmd()
