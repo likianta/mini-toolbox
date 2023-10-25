@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pysignal"
-version = "0.1.1b1"
+version = "0.1.1"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
 license = "MIT"

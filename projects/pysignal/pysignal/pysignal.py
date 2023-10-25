@@ -25,7 +25,7 @@ class T:
     
     
 class config:  # noqa
-    use_thread_pool: bool = True
+    use_thread_pool: bool = False
 
 
 # http://c.biancheng.net/view/2627.html
@@ -149,10 +149,10 @@ class SignalFactory:
                 #   the squared form: `signal[must_give_a_type]`.
     """
     
-    def __getitem__(self, item: t.Type) -> Signal:
+    def __getitem__(self, *types: t.Type) -> Signal:
         return Signal()
     
-    def __call__(self, item: t.Type = None) -> Signal:
+    def __call__(self, *types: t.Type) -> Signal:
         return Signal()
 
 
