@@ -1,18 +1,23 @@
 [tool.poetry]
 name = "easy-submodule"
-version = "0.1.1"
+version = "0.2.0a0"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
 argsense = "^0.5.3"
-lk-utils = { url = "http://likianta.pro:2006/lk-utils/lk_utils-2.7.1a1-py3-none-any.whl" }
+lk-utils = { url = "http://likianta.pro:2006/lk-utils/lk_utils-2.7.2b2-py3-none-any.whl" }
+pyapp-window = { url = "http://likianta.pro:2006/pyapp-window/pyapp_window-0.2.0b3-py3-none-any.whl" }
+streamlit = { version = "^1.28.0", python = "!=3.9.7" }
 
 [[tool.poetry.source]]
 name = "tsinghua"
 url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
 priority = "default"
+
+[tool.poetry.scripts]
+easy-submodule = "easy_submodule.ui.launcher:main"
 
 [build-system]
 requires = ["poetry-core"]

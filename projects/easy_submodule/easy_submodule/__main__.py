@@ -1,3 +1,6 @@
+if __package__ is None:
+    __package__ = 'easy_submodule'
+
 import os.path
 
 from argsense import cli
@@ -7,6 +10,7 @@ from .clone import clone_submodules
 from .lock import lock_submodules
 from .profile import init_profile
 from .pull import pull_submodules
+from .ui import setup_ui
 
 
 @cli.cmd()
@@ -32,6 +36,13 @@ def lock(path: str = '.') -> None:
 @cli.cmd()
 def pull(path: str = '.') -> None:
     pull_submodules(_normpath(path))
+
+
+@cli.cmd()
+def run_backend() -> None:
+    # por streamlit run --server.headless true --server.port 2013 \
+    # easy_submodule/__main__.py run-backend
+    setup_ui()
 
 
 def _normpath(file_or_dir: str) -> str:
