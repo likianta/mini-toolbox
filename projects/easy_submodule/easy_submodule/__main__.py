@@ -4,6 +4,7 @@ if __package__ is None:
 import os.path
 
 from argsense import cli
+from lk_utils import fs
 
 from . import ui
 from .api import check_submodules
@@ -40,12 +41,15 @@ def pull(path: str = '.') -> None:
 
 
 @cli.cmd()
-def run_gui(port: int = 2013, _only_backend: bool = False) -> None:
+def run_gui(
+    cwd: str = '', port: int = 2013, _only_backend: bool = False
+) -> None:
+    if cwd: cwd = fs.abspath(cwd)
     # ui.run_app(port)
     if not _only_backend:
-        ui.run_app(port)
+        ui.run_app(port, ('--cwd', cwd))
     else:
-        ui.setup_ui()
+        ui.setup_ui(_default_input=cwd)
 
 
 @cli.cmd()

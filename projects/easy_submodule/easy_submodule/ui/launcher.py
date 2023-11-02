@@ -10,8 +10,8 @@ from pyapp_window import open_native_window
 
 
 @cli.cmd()
-def main(port: int = 2013) -> None:
-    proc_back = backend(port)
+def main(port: int = 2013, *args) -> None:
+    proc_back = backend(port, *args)
     assert proc_back
     # proc_back = mp.Process(target=backend, kwargs={'port': port}, daemon=True)
     # proc_back.start()
@@ -34,34 +34,23 @@ def main(port: int = 2013) -> None:
     print('exit program')
 
 
-# shared object across multiprocessing
-# https://docs.python.org/3/library/multiprocessing.html#sharing-state-between \
-# -processes
-# https://docs.python.org/3/library/array.html#module-array
-# _backend_running = mp.Value('B', 0)
-
-
-def backend(port: int) -> sp.Popen:
+def backend(port: int, *args) -> sp.Popen:
     proc: sp.Popen = run_cmd_args(
-        (sys.executable, '-m', 'streamlit'),
+        (sys.executable, '-m', 'streamlit', 'run'),
         # ('run', fs.xpath('ui_builder.py')),
-        ('run', fs.xpath('../__main__.py'), 'run-gui', port, ':true'),
         ('--global.developmentMode', 'false'),
         ('--server.headless', 'true'),
-        ('--server.port', str(port)),
+        ('--server.port', port),
+        (
+            fs.xpath('../__main__.py'), 'run-gui',
+            ('--', *args, ('--port', port), '--only-backend'),
+        ),
         blocking=False,
         cwd=fs.xpath('../../'),
         rich_print=False,
         verbose=True,
     )
     return proc
-    
-    # _backend_running.value = 1
-    # while _backend_running.value:
-    #     sleep(0.2)
-    # else:
-    #     proc.terminate()
-    #     print('backend process is killed')
 
 
 def frontend(port: int) -> None:

@@ -4,6 +4,10 @@
 - grab all dependencies of submodules' pyproject.toml.
 - recursively pull.
 
+### 0.2.1 (2023-11-02)
+
+- launch gui with default path to input widget.
+
 ### 0.2.0 (2023-11-02)
 
 - gui.
