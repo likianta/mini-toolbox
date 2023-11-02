@@ -41,10 +41,10 @@ def _sync_cache(cache: dict) -> None:
     dumps(dict(cache), cache_file)
 
 
-def main() -> None:
+def main(_default_input: str = '') -> None:
     print(':di2')
     st.title('Easy Submodule')
-    new_item = add_new_project()
+    new_item = add_new_project(_default_input)
     cache = _get_cache()
     if new_item:
         cache.update(new_item)
@@ -52,9 +52,10 @@ def main() -> None:
     list_projects(cache)
 
 
-def add_new_project() -> t.Optional[dict]:
+def add_new_project(_default_value: str = '') -> t.Optional[dict]:
     new_proj_path = st.text_input(
         'Add new project',
+        _default_value,
         help='Given a folder path to a project, will list all submodules '
              'inside it.'
     )
