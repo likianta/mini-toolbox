@@ -6,11 +6,12 @@ import os.path
 from argsense import cli
 
 from . import ui
-from .check import check_submodules
-from .clone import clone_submodules
-from .lock import lock_submodules
+from .api import check_submodules
+from .api import clone_submodules
+from .api import lock_submodules
+from .api import pull_submodules
+from .deps_merge import merge_deps as _merge_deps
 from .profile import init_profile
-from .pull import pull_submodules
 
 
 @cli.cmd()
@@ -47,6 +48,15 @@ def run_gui(port: int = 2013, _only_backend: bool = False) -> None:
         ui.setup_ui()
 
 
+@cli.cmd()
+def merge_deps(root: str, include_dev_group: bool = False) -> None:
+    """
+    kwargs:
+        include_dev_group (-d):
+    """
+    _merge_deps(root, include_dev_group)
+
+
 def _normpath(file_or_dir: str) -> str:
     if file_or_dir == '.' or os.path.isdir(file_or_dir):
         return '{}/.submodules.yaml'.format(file_or_dir)
@@ -55,5 +65,8 @@ def _normpath(file_or_dir: str) -> str:
 
 
 if __name__ == '__main__':
+    # pox -m easy_submodule -h
     # pox -m easy_submodule run-gui
+    # pox -m easy_submodule merge-deps <dir>
+    # pox -m easy_submodule merge-deps <dir> -d
     cli.run()

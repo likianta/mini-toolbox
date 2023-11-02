@@ -11,10 +11,10 @@ from lk_utils import fs
 from lk_utils import loads
 from lk_utils import run_cmd_args
 
-from ..lock import get_current_info
+from ..api import pull_submodules
+from ..api.lock import get_current_info
 from ..profile import T
 from ..profile import load_profile
-from ..pull import pull_submodules
 
 
 def _get_cache() -> dict:

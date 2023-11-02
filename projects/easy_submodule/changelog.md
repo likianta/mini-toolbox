@@ -1,8 +1,8 @@
 
 ### 0.3.0 (wip)
 
-- recursively pull.
 - grab all dependencies of submodules' pyproject.toml.
+- recursively pull.
 
 ### 0.2.0 (2023-11-02)
 
