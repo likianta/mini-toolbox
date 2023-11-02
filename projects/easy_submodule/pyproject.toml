@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "easy-submodule"
-version = "0.2.0a0"
+version = "0.2.0"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
 

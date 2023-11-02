@@ -1,4 +1,5 @@
-# __package__ = 'easy_submodule.ui.ui_builder'
+# if __package__ is None:
+#     __package__ = 'easy_submodule.ui.ui_builder'
 
 import datetime
 import re
@@ -41,7 +42,7 @@ def _sync_cache(cache: dict) -> None:
 
 
 def main() -> None:
-    print(':d')
+    print(':di2')
     st.title('Easy Submodule')
     new_item = add_new_project()
     cache = _get_cache()
@@ -78,27 +79,30 @@ def analyze_project(path: str) -> t.Dict[str, str]:
 
 
 def list_projects(projects: t.Dict[t.Tuple[str, str], t.Dict[str, str]]) -> None:
+    item_to_be_deleted = None
+    
     for (top_name, top_path), v0 in projects.items():
         # cols = st.columns(2)
         # sub_names = v0.keys()
         # for sub_name in v0.keys():
         #     pass
-        with st.expander(top_name, True):
+        with st.expander(top_name, False):
             # c0, c1 = st.columns(2)
-
+            
             all_be_pulled = False
             if st.button(
                 'Pull all submodules',
                 type='primary',
-                key=f'pull_btn_{top_name}'
+                key=f'btn0_{top_name}'
             ):
                 pull_submodules(f'{top_path}/.submodules.yaml')
                 all_be_pulled = True
-            if st.button('Refresh states'):
+            if st.button('Refresh states', key=f'btn1_{top_name}'):
                 all_be_pulled = False
-            if st.button(':red[Delete this entry]'):
-                continue
-                
+            if st.button(':red[Delete this entry]', key=f'btn2_{top_name}'):
+                item_to_be_deleted = (top_name, top_path)
+                break
+            
             for sub_name, path in v0.items():
                 # c0.markdown(f'**{sub_name}**')
                 # st.write(sub_name)
@@ -114,8 +118,17 @@ def list_projects(projects: t.Dict[t.Tuple[str, str], t.Dict[str, str]]) -> None
                     comment=comment,
                     since=time_delta
                 ))
-                if st.button(f'Pull "{sub_name}"', disabled=all_be_pulled):
+                if st.button(
+                    f'Pull "{sub_name}"',
+                    disabled=all_be_pulled,
+                    key=f'btn3_{top_name}_{sub_name}'
+                ):
                     run_cmd_args('git', 'pull', verbose=True, cwd=path)
+    
+    if item_to_be_deleted:
+        projects.pop(item_to_be_deleted)
+        _sync_cache(projects)
+        st.rerun()
 
 
 def _check_submodule(info: T.ProfileItem) -> bool:
@@ -129,7 +142,7 @@ def _get_last_commit_info(cwd: str) -> t.Tuple[str, str, str]:
     # ref: https://stackoverflow.com/questions/7293008/display-last-git-commit-
     #   comment
     msg = run_cmd_args('git', 'log', '-1', cwd=cwd)
-    print(fs.dirname(cwd), msg)
+    # print(fs.dirname(cwd), msg)
     """
     e.g.
         commit <hash> (HEAD -> master, ...)
@@ -144,7 +157,6 @@ def _get_last_commit_info(cwd: str) -> t.Tuple[str, str, str]:
         return re.search(r'Author: (\w+)', lines[1]).group(1)
     
     def get_time_delta() -> str:
-        print(':dv', lines[2])
         mon, day, hr, min_, sec, yr, tz = re.search(
             r'Date *: +\w+ (\w+) (\d+) (\d+):(\d+):(\d+) (\d+) (\+\d+)',
             lines[2]
@@ -178,3 +190,7 @@ def _get_last_commit_info(cwd: str) -> t.Tuple[str, str, str]:
         return lines[4].strip()
     
     return get_author(), get_time_delta(), get_comment()
+
+
+if __name__ == '__main__':
+    main()

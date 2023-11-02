@@ -5,12 +5,12 @@ import os.path
 
 from argsense import cli
 
+from . import ui
 from .check import check_submodules
 from .clone import clone_submodules
 from .lock import lock_submodules
 from .profile import init_profile
 from .pull import pull_submodules
-from .ui import setup_ui
 
 
 @cli.cmd()
@@ -39,10 +39,12 @@ def pull(path: str = '.') -> None:
 
 
 @cli.cmd()
-def run_backend() -> None:
-    # por streamlit run --server.headless true --server.port 2013 \
-    # easy_submodule/__main__.py run-backend
-    setup_ui()
+def run_gui(port: int = 2013, _only_backend: bool = False) -> None:
+    # ui.run_app(port)
+    if not _only_backend:
+        ui.run_app(port)
+    else:
+        ui.setup_ui()
 
 
 def _normpath(file_or_dir: str) -> str:
@@ -53,4 +55,5 @@ def _normpath(file_or_dir: str) -> str:
 
 
 if __name__ == '__main__':
+    # pox -m easy_submodule run-gui
     cli.run()

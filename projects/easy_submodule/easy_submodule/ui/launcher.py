@@ -44,7 +44,8 @@ def main(port: int = 2013) -> None:
 def backend(port: int) -> sp.Popen:
     proc: sp.Popen = run_cmd_args(
         (sys.executable, '-m', 'streamlit'),
-        ('run', 'easy_submodule/__main__.py', 'run-backend'),
+        # ('run', fs.xpath('ui_builder.py')),
+        ('run', fs.xpath('../__main__.py'), 'run-gui', port, ':true'),
         ('--global.developmentMode', 'false'),
         ('--server.headless', 'true'),
         ('--server.port', str(port)),
