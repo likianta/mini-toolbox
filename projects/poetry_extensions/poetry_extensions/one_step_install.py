@@ -44,9 +44,9 @@ def by_given_path(dir_: str, no_deps=False) -> None:
     
     if not os.path.exists(file):
         print(f'poetry build {package}')
-        os.chdir(dir_)
+        # os.chdir(dir_)
         subproc.run_cmd_args(
-            'poetry', 'build', '-f', 'wheel',
+            'poetry', 'build', '-f', 'wheel', '-C', dir_,
             verbose=True
         )
     
