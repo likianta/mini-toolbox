@@ -1,7 +1,7 @@
 from lk_utils import run_cmd_args
 
 from .lock import get_current_info
-from .profile import load_profile
+from ..profile import load_profile
 
 
 def pull_submodules(profile_path: str) -> None:

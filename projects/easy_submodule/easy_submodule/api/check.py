@@ -3,7 +3,7 @@ import os.path
 from lk_utils import normpath
 
 from .lock import get_current_info
-from .profile import load_profile
+from ..profile import load_profile
 
 
 def check_submodules(profile_path: str) -> None:

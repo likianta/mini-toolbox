@@ -1,7 +1,7 @@
 from lk_utils import fs
 from lk_utils import run_cmd_args
 
-from .profile import load_profile
+from ..profile import load_profile
 
 
 def clone_submodules(profile_path: str) -> None:
