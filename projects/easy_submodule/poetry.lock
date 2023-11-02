@@ -533,12 +533,12 @@ reference = "tsinghua"
 
 [[package]]
 name = "lk-utils"
-version = "2.7.2b2"
+version = "2.7.2b4"
 description = "LK Utils is a set of utility wrappers made for data processing."
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "lk_utils-2.7.2b2-py3-none-any.whl", hash = "sha256:60a09b83fcac342dece48e3948416cd4bc99f11648bf566a7d52ae25dd333b8d"},
+    {file = "lk_utils-2.7.2b4-py3-none-any.whl", hash = "sha256:a59651f631c6f7476712ebeac272cf14c7becace368ac0f2ec2d98b21cc12a52"},
 ]
 
 [package.dependencies]
@@ -549,7 +549,7 @@ typing-extensions = {version = "*", markers = "python_version < \"3.11\""}
 
 [package.source]
 type = "url"
-url = "http://likianta.pro:2006/lk-utils/lk_utils-2.7.2b2-py3-none-any.whl"
+url = "http://likianta.pro:2006/lk-utils/lk_utils-2.7.2b4-py3-none-any.whl"
 
 [[package]]
 name = "markdown-it-py"
@@ -1935,4 +1935,4 @@ reference = "tsinghua"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "6ad89979b03f4b0e9aeadad207226482b71f6812ffb1e6e8907f453dd18cba72"
+content-hash = "f4693eb30fcefcd011e10a3f7b864ec30746f7f6c00435c5272cec1d7351bffd"

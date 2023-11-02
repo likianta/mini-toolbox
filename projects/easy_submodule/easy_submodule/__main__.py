@@ -47,13 +47,16 @@ def run_gui(
     if cwd: cwd = fs.abspath(cwd)
     # ui.run_app(port)
     if not _only_backend:
-        ui.run_app(port, ('--cwd', cwd))
+        if cwd:
+            ui.run_app(port, ('--cwd', cwd))
+        else:
+            ui.run_app(port)
     else:
         ui.setup_ui(_default_input=cwd)
 
 
 @cli.cmd()
-def merge_deps(root: str, include_dev_group: bool = False) -> None:
+def merge_deps(root: str = '.', include_dev_group: bool = False) -> None:
     """
     kwargs:
         include_dev_group (-d):

@@ -75,8 +75,8 @@ def get_subproj_deps(
 def _add_content_to_pyproj_file(additional_content: str, file: str) -> None:
     content_i: str = loads(file, ftype='plain')
     if '# --- auto gen' in content_i:
-        content_i = content_i[:content_i.index('# --- auto gen')].rstrip()
+        content_i = content_i[:content_i.index('# --- auto gen')]
     content_o = '{}\n\n# --- auto gen\n\n{}'.format(
-        content_i, additional_content
+        content_i.rstrip(), additional_content
     )
     dumps(content_o, file, ftype='plain')

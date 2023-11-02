@@ -47,7 +47,6 @@ def backend(port: int, *args) -> sp.Popen:
         ),
         blocking=False,
         cwd=fs.xpath('../../'),
-        rich_print=False,
         verbose=True,
     )
     return proc
