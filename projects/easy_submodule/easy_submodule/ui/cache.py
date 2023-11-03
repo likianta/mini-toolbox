@@ -20,11 +20,13 @@ from lk_utils import loads
 
 
 def init_cache() -> None:
+    print('init cache')
     st.session_state.cache = loads(_get_cache_file())
 
 
 @atexit.register
 def save_cache() -> None:
+    print('save cache', st.session_state.cache, ':l')
     dumps(dict(st.session_state.cache), _get_cache_file())
 
 

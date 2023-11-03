@@ -109,7 +109,7 @@ def list_projects(
     
     if item_to_be_deleted:
         projects.pop(item_to_be_deleted)
-        # st.rerun()
+        st.rerun()
 
 
 def _check_submodule(info: T.ProfileItem) -> bool:

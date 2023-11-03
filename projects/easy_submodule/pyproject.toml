@@ -1,14 +1,15 @@
 [tool.poetry]
 name = "easy-submodule"
-version = "0.3.1"
+version = "0.3.2a4"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-argsense = "^0.5.3"
+# argsense = "^0.5.4"
+argsense = { url = "http://likianta.pro:2006/argsense/argsense-0.5.5a0-py3-none-any.whl" }
 lk-utils = "^2.7.2"
-pyapp-window = { url = "http://likianta.pro:2006/pyapp-window/pyapp_window-0.2.0b3-py3-none-any.whl" }
+pyapp-window = { url = "http://likianta.pro:2006/pyapp-window/pyapp_window-0.2.1a0-py3-none-any.whl" }
 streamlit = { version = "^1.28.0", python = "!=3.9.7" }
 toml = "*"
 

@@ -47,7 +47,7 @@ def run_gui(
     if cwd: cwd = fs.abspath(cwd)
     # ui.run_app(port)
     if not _only_backend:
-        ui.run_app(port, cwd or ':none')
+        ui.run_app(port, cwd or ':empty')
     else:
         ui.setup_ui(_default_input=cwd or '')
 

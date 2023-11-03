@@ -3,13 +3,11 @@ import subprocess as sp
 import sys
 from time import sleep
 
-from argsense import cli
 from lk_utils import fs
 from lk_utils.subproc import run_cmd_args
 from pyapp_window import open_native_window
 
 
-@cli.cmd()
 def main(port: int = 2013, *args) -> None:
     proc_back = backend(port, *args)
     assert proc_back
@@ -59,8 +57,3 @@ def frontend(port: int) -> None:
         'http://localhost:{}'.format(port),
         size=(600, 1000)
     )
-
-
-if __name__ == '__main__':
-    # pox easy_submodule/ui/launcher.py
-    cli.run(main)
