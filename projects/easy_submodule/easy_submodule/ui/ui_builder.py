@@ -29,6 +29,7 @@ def main(_default_input: str = '') -> None:
     if new_item := add_new_project():
         cache.update(new_item)
     list_projects(cache)
+    button_sync_cache()
 
 
 def add_new_project() -> t.Optional[dict]:
@@ -110,6 +111,12 @@ def list_projects(
     if item_to_be_deleted:
         projects.pop(item_to_be_deleted)
         st.rerun()
+
+
+def button_sync_cache() -> None:
+    if st.button('Sync cache'):
+        from .cache import save_cache
+        save_cache()
 
 
 def _check_submodule(info: T.ProfileItem) -> bool:

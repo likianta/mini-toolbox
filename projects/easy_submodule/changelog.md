@@ -2,6 +2,10 @@
 
 - recursively pull.
 
+### 0.3.2 (2023-11-03)
+
+- fix saving cache.
+
 ### 0.3.1 (2023-11-03)
 
 - minor fix.

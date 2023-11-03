@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "easy-submodule"
-version = "0.3.2a4"
+version = "0.3.2"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
 
@@ -11,6 +11,7 @@ argsense = { url = "http://likianta.pro:2006/argsense/argsense-0.5.5a0-py3-none-
 lk-utils = "^2.7.2"
 pyapp-window = { url = "http://likianta.pro:2006/pyapp-window/pyapp_window-0.2.1a0-py3-none-any.whl" }
 streamlit = { version = "^1.28.0", python = "!=3.9.7" }
+# streamlit-float = "*"
 toml = "*"
 
 [[tool.poetry.source]]

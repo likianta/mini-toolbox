@@ -24,7 +24,7 @@ def init_cache() -> None:
     st.session_state.cache = loads(_get_cache_file())
 
 
-@atexit.register
+# @atexit.register  # FIXME: atexit not worked in Popen?
 def save_cache() -> None:
     print('save cache', st.session_state.cache, ':l')
     dumps(dict(st.session_state.cache), _get_cache_file())
