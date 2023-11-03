@@ -2,6 +2,10 @@
 
 - recursively pull.
 
+### 0.3.1 (2023-11-03)
+
+- minor fix.
+
 ### 0.3.0 (2023-11-02)
 
 - grab all dependencies of submodules' pyproject.toml.

@@ -1,7 +1,6 @@
 /.idea/
 /projects/chrome_app_mode/__chrome_app_mode_temp_data__/
 /projects/easy_submodule/_easy_submodule_cache.pkl
-/projects/easy_submodule/easy_submodule/ui/_cache.pkl
 /projects/replace_pip_vendor_urllib3/urllib3/
 /projects/replace_pip_vendor_urllib3/urllib3-*/
 __pycache__/
