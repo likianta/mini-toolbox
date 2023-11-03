@@ -1,0 +1,20 @@
+# pip install -r requirements.lock --no-deps
+--index-url https://pypi.tuna.tsinghua.edu.cn/simple
+
+argsense==0.5.4
+importlib-metadata==6.8.0
+linkify-it-py==2.0.2 ; extra == "linkify"
+lk-logger==5.6.3
+lk-utils==2.7.2
+markdown-it-py==3.0.0
+mdit-py-plugins==0.4.0 ; extra == "plugins"
+mdurl==0.1.2
+objprint==0.2.3
+pygments==2.16.1
+pyyaml==6.0.1
+rich==13.6.0
+textual==0.41.0
+toml==0.10.2
+typing-extensions==4.8.0 ; python_version < "3.9"
+uc-micro-py==1.0.2
+zipp==3.17.0

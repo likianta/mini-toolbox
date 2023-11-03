@@ -21,3 +21,6 @@ priority = "default"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[project]
+version = "0.1.0"
