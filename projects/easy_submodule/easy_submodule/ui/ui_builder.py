@@ -5,47 +5,24 @@ import datetime
 import re
 import typing as t
 
-import streamlit as st  # noqa
-from lk_utils import dumps
+import streamlit as st
 from lk_utils import fs
-from lk_utils import loads
 from lk_utils import run_cmd_args
 
+from .cache import init_cache
 from ..api import pull_submodules
 from ..api.lock import get_current_info
 from ..profile import T
 from ..profile import load_profile
 
-
-def _get_cache() -> dict:
-    if 'cache' not in st.session_state:
-        if fs.exists(x := fs.xpath('../../_easy_submodule_cache.pkl')):
-            # for project development
-            cache_file = x
-        else:
-            cache_file = fs.xpath('./_cache.pkl')
-            assert fs.exists(cache_file), cache_file
-        cache = loads(cache_file)
-        st.session_state['cache'] = cache
-    return st.session_state['cache']
-
-
-# TODO
-# @atexit.register
-def _sync_cache(cache: dict) -> None:
-    if fs.exists(x := fs.xpath('../../_easy_submodule_cache.pkl')):
-        # for project development
-        cache_file = x
-    else:
-        cache_file = fs.xpath('./_cache.pkl')
-    dumps(dict(cache), cache_file)
+init_cache()
 
 
 def main(_default_input: str = '') -> None:
     print(':di2')
     st.title('Easy Submodule')
     new_item = add_new_project(_default_input)
-    cache = _get_cache()
+    cache = st.session_state.cache
     if new_item:
         cache.update(new_item)
         _sync_cache(cache)
@@ -129,7 +106,7 @@ def list_projects(projects: t.Dict[t.Tuple[str, str], t.Dict[str, str]]) -> None
     if item_to_be_deleted:
         projects.pop(item_to_be_deleted)
         _sync_cache(projects)
-        st.rerun()
+        # st.rerun()
 
 
 def _check_submodule(info: T.ProfileItem) -> bool:
