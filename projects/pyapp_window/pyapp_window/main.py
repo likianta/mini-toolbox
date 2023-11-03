@@ -51,7 +51,7 @@ class App(toga.App):
         # self._wait_webpage_ready(self.url)
         self._view = toga.WebView(
             url=self.url,
-            on_webview_load=lambda _: print('webview loaded', ':t2v'),
+            on_webview_load=lambda _: print('webview loaded', self.url),
         )
         self.main_window.content = self._view
         self.main_window.show()
@@ -96,7 +96,7 @@ def get_screen_size() -> t.Tuple[int, int]:
         )
         m = re.search(r'Resolution: (\d+) x (\d+)', ret.stdout)
         w, h = map(int, m.groups())
-        print(ret, (w, h), ':v')
+        # print(ret, (w, h), ':v')
         return w, h
     
     try:
