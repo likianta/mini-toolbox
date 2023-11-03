@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "pyx"
+name = "pyexecutor"
 description = ""
-version = "0.1.0b11"
+version = "0.1.0b14"
 authors = ["Likianta <likianta@foxmail.com>"]
 
 [[tool.poetry.source]]
@@ -13,10 +13,10 @@ priority = "default"
 python = "^3.8"
 argsense = "*"
 lk-logger = "*"
-lk-utils = "*"
+lk-utils = { url = "http://likianta.pro:2006/lk-utils/lk_utils-2.7.0a7-py3-none-any.whl" }
 
 [tool.poetry.scripts]
-pyx = "pyx._bin:run"
+pyx = "pyexecutor._bin:run"
 
 [build-system]
 requires = ["poetry"]
