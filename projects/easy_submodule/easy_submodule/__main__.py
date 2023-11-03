@@ -1,4 +1,4 @@
-if __package__ is None:
+if __package__ is None:  # noqa
     __package__ = 'easy_submodule'
 
 import os.path
@@ -42,17 +42,14 @@ def pull(path: str = '.') -> None:
 
 @cli.cmd()
 def run_gui(
-    cwd: str = '', port: int = 2013, _only_backend: bool = False
+    cwd: str = None, port: int = 2013, _only_backend: bool = False
 ) -> None:
     if cwd: cwd = fs.abspath(cwd)
     # ui.run_app(port)
     if not _only_backend:
-        if cwd:
-            ui.run_app(port, ('--cwd', cwd))
-        else:
-            ui.run_app(port)
+        ui.run_app(port, cwd or ':none')
     else:
-        ui.setup_ui(_default_input=cwd)
+        ui.setup_ui(_default_input=cwd or '')
 
 
 @cli.cmd()

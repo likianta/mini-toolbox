@@ -5,58 +5,62 @@ import datetime
 import re
 import typing as t
 
-import streamlit as st
+import streamlit as st  # noqa
 from lk_utils import fs
 from lk_utils import run_cmd_args
 
-from .cache import init_cache
 from ..api import pull_submodules
 from ..api.lock import get_current_info
 from ..profile import T
 from ..profile import load_profile
 
-init_cache()
-
 
 def main(_default_input: str = '') -> None:
     print(':di2')
+    
+    if 'cache' not in st.session_state:
+        from .cache import init_cache
+        init_cache()
+    if 'default_input' not in st.session_state:
+        st.session_state.default_input = _default_input
+    
     st.title('Easy Submodule')
-    new_item = add_new_project(_default_input)
     cache = st.session_state.cache
-    if new_item:
+    if new_item := add_new_project():
         cache.update(new_item)
-        _sync_cache(cache)
     list_projects(cache)
 
 
-def add_new_project(_default_value: str = '') -> t.Optional[dict]:
+def add_new_project() -> t.Optional[dict]:
     new_proj_path = st.text_input(
         'Add new project',
-        _default_value,
+        st.session_state.default_input,
         help='Given a folder path to a project, will list all submodules '
              'inside it.'
     )
+    st.session_state.default_input = ''
     if new_proj_path:
-        return {
-            (fs.dirname(new_proj_path), new_proj_path):
-                analyze_project(new_proj_path)
-        }
+        if x := analyze_project(new_proj_path):
+            return {(fs.dirname(new_proj_path), new_proj_path): x}
 
 
-def analyze_project(path: str) -> t.Dict[str, str]:
-    out = {}
+def analyze_project(path: str) -> t.Optional[t.Dict[str, str]]:
     if fs.exists(x := f'{path}/.submodules.yaml'):
         print(x, ':v')
+        out = {}
         profile = load_profile(x)
         for name, info in profile.items():
             # out[name] = analyze_project(info['path'])
             out[name] = info['path']
+        return out
     else:
         st.warning('No ".submodules.yaml" found in this project.')
-    return out
+        return None
 
 
-def list_projects(projects: t.Dict[t.Tuple[str, str], t.Dict[str, str]]) -> None:
+def list_projects(
+    projects: t.Dict[t.Tuple[str, str], t.Dict[str, str]]
+) -> None:
     item_to_be_deleted = None
     
     for (top_name, top_path), v0 in projects.items():
@@ -105,7 +109,6 @@ def list_projects(projects: t.Dict[t.Tuple[str, str], t.Dict[str, str]]) -> None
     
     if item_to_be_deleted:
         projects.pop(item_to_be_deleted)
-        _sync_cache(projects)
         # st.rerun()
 
 

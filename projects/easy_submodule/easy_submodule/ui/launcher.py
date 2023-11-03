@@ -43,7 +43,8 @@ def backend(port: int, *args) -> sp.Popen:
         ('--server.port', port),
         (
             fs.xpath('../__main__.py'), 'run-gui',
-            ('--', *args, ('--port', port), '--only-backend'),
+            # ('--', *args, ('--port', port), '--only-backend'),
+            (*args, port, ':true'),
         ),
         blocking=False,
         cwd=fs.xpath('../../'),
