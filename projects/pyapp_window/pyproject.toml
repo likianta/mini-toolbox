@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyapp-window"
-version = "0.2.1a0"
+version = "0.2.1b0"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
 # readme = "README.md"
@@ -8,7 +8,7 @@ authors = ["likianta <likianta@foxmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 argsense = "*"
-toga = "^0.3.0"
+toga = "^0.4.0"
 
 # explicitly specify version for toga dependency on windows.
 pythonnet = { version = "^3.0.0", python = ">=3.8,<3.13", platform = "win32" }  # <- toga (windows)

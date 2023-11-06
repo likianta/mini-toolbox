@@ -31,20 +31,20 @@ class App(toga.App):
         pos: t.Optional[t.Tuple[int, int]] = None,
         icon: str = None,
     ) -> None:
+        self.url = url
+        self._pos = pos or get_center_pos(size)
+        self._size = size
         super().__init__(
             formal_name=title,
             app_id='dev.likianta.brilliant',
             icon=icon,
         )
-        self.url = url
-        self._pos = pos or get_center_pos(size)
-        self._size = size
     
     # override
     def startup(self) -> None:
         # noinspection PyTypeChecker
         self.main_window = toga.MainWindow(
-            title=self.name,
+            title=self.formal_name,
             size=self._size,
             position=self._pos,
         )
