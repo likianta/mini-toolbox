@@ -66,8 +66,12 @@ def main(
         print(name, ':i')
         if dict_['version']:
             data_o.append(
-                '{}=={} ; {}'.format(name, dict_['version'], dict_['markers'])
-                .rstrip(' ;')
+                '{name}=={version}{custom_url}{markers}'.format(
+                    name=name,
+                    version=dict_['version'],
+                    custom_url=(x := dict_['url']) and f' @ {x}' or '',
+                    markers=(x := dict_['markers']) and f' ; {x}' or '',
+                ).rstrip()
             )
         else:
             print(f'skip {name}', ':v3')
