@@ -3,7 +3,7 @@ import subprocess as sp
 import sys
 import typing as t
 
-import toga
+import toga  # noqa
 
 
 def open_native_window(
@@ -106,7 +106,7 @@ def get_screen_size() -> t.Tuple[int, int]:
 
 
 if __name__ == '__main__':
-    # pox brilliant/application/opener/native_window_2.py
+    # pox pyapp_window/native_window.py
     open_native_window(
         'WebView Example',
         'https://www.google.com/',

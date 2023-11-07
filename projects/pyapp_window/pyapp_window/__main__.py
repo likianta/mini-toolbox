@@ -1,6 +1,6 @@
 from argsense import cli
 
-from .main import open_native_window
+from .native_window import open_native_window
 
 
 @cli.cmd()
