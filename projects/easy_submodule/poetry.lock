@@ -1105,12 +1105,12 @@ reference = "tsinghua"
 
 [[package]]
 name = "pyapp-window"
-version = "0.3.0b0"
+version = "0.3.0"
 description = ""
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "pyapp_window-0.3.0b0-py3-none-any.whl", hash = "sha256:576413787d3977f20836a977f51420c52f5861240f167b8728015403a6031e79"},
+    {file = "pyapp_window-0.3.0-py3-none-any.whl", hash = "sha256:d6b588778efaeb39ff749bd43d922c261b9f7459bb9cc579db92423c76e743db"},
 ]
 
 [package.dependencies]
@@ -1119,8 +1119,9 @@ pythonnet = {version = ">=3.0.0,<4.0.0", markers = "python_version >= \"3.8\" an
 toga = ">=0.4.0,<0.5.0"
 
 [package.source]
-type = "url"
-url = "http://likianta.pro:2006/pyapp-window/pyapp_window-0.3.0b0-py3-none-any.whl"
+type = "legacy"
+url = "http://likianta.pro:2006"
+reference = "likianta-hosted"
 
 [[package]]
 name = "pyarrow"
@@ -2086,4 +2087,4 @@ reference = "tsinghua"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "880b68c1abf52659d309626d399167fcd3920282082d066999b056afa4b7b8b0"
+content-hash = "c81be7fd51d6a85dfa708fbe81307289c1710372ff3b79c2e8fb7b189ca7ef32"

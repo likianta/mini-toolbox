@@ -2,17 +2,21 @@ import re
 import subprocess as sp
 import sys
 import typing as t
+from urllib.error import URLError
+from urllib.request import urlopen
 
 import toga  # noqa
+from lk_utils.time_utils import wait
 
 
 def open_native_window(
     title: str,
     url: str,
     size: t.Tuple[int, int] = (800, 600),
+    check_url: bool = False,
     **kwargs
 ) -> None:
-    app = App(title, url, size=size, **kwargs)
+    app = App(title, url, check_url, size=size, **kwargs)
     app.main_loop()  # blocking until window closed.
 
 
@@ -26,12 +30,14 @@ class App(toga.App):
         self,
         title: str,
         url: str,
+        check_url: bool = False,
         *,
         size: t.Tuple[int, int] = (800, 600),
         pos: t.Optional[t.Tuple[int, int]] = None,
         icon: str = None,
     ) -> None:
         self.url = url
+        self._check_url = check_url
         self._pos = pos or get_center_pos(size)
         self._size = size
         super().__init__(
@@ -48,7 +54,8 @@ class App(toga.App):
             size=self._size,
             position=self._pos,
         )
-        # self._wait_webpage_ready(self.url)
+        if self._check_url:
+            self._wait_webpage_ready(self.url)
         self._view = toga.WebView(
             url=self.url,
             on_webview_load=lambda _: print('webview loaded', self.url),
@@ -56,17 +63,17 @@ class App(toga.App):
         self.main_window.content = self._view
         self.main_window.show()
     
-    # @staticmethod
-    # def _wait_webpage_ready(url: str, timeout: float = 3) -> None:
-    #     print(':t2s')
-    #     for _ in wait(timeout, 0.2):
-    #         try:
-    #             if urlopen(url, timeout=1):
-    #                 print('webpage ready', ':t2')
-    #                 return
-    #         except Exception:
-    #             continue
-    #     raise TimeoutError('timeout waiting streamlit service ready')
+    @staticmethod
+    def _wait_webpage_ready(url: str, timeout: float = 10) -> None:
+        print(':t2s')
+        for _ in wait(timeout, 0.1):
+            try:
+                if urlopen(url, timeout=1):
+                    print('webpage ready', ':t2')
+                    return
+            except (TimeoutError, URLError):
+                continue
+        # raise TimeoutError('url is not accessible', url)
 
 
 def get_center_pos(window_size: t.Tuple[int, int]) -> t.Tuple[int, int]:

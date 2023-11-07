@@ -9,6 +9,7 @@ def launch(
     title: str,
     url: str,
     copilot_backend: Popen = None,
+    wait_url_ready: bool = False,
     **kwargs
 ) -> None:
     if copilot_backend:
@@ -18,6 +19,7 @@ def launch(
             kwargs={
                 'title': title,
                 'url'  : url,
+                'check_url': wait_url_ready,
                 **kwargs
             },
             daemon=True
