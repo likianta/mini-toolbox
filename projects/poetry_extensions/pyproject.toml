@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-argsense = "^0.5.4"
+argsense = { version = "^0.5.5a0", source = "likianta-hosted" }
 lk-utils = { url = "http://likianta.pro:2006/lk-utils/lk_utils-2.7.2-py3-none-any.whl" }
 toml = "*"
 
@@ -18,6 +18,11 @@ poetry = "*"
 name = "tsinghua"
 url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
 priority = "default"
+
+[[tool.poetry.source]]
+name = "likianta-hosted"
+url = "http://likianta.pro:2006/"
+priority = "explicit"
 
 [build-system]
 requires = ["poetry-core"]

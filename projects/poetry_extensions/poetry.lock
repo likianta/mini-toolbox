@@ -2,12 +2,12 @@
 
 [[package]]
 name = "argsense"
-version = "0.5.4"
+version = "0.5.5a0"
 description = "New command line interface based on Python Rich library."
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "argsense-0.5.4-py3-none-any.whl", hash = "sha256:cce896de41a56f534747d34f597e1617d8f526afb4d83bff8b67949fa342d7db"},
+    {file = "argsense-0.5.5a0-py3-none-any.whl", hash = "sha256:b936bd7af8c52b66b2af205ee4ab8bb3963e3fcad94519ee58f3d41bba0437cd"},
 ]
 
 [package.dependencies]
@@ -19,8 +19,8 @@ gui = ["pysimplegui"]
 
 [package.source]
 type = "legacy"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
-reference = "tsinghua"
+url = "http://likianta.pro:2006"
+reference = "likianta-hosted"
 
 [[package]]
 name = "attrs"
@@ -1769,4 +1769,4 @@ reference = "tsinghua"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "a15743d04d7d189b50f57cef494e969770f4f1107ec8c832028516b385292522"
+content-hash = "f18c14f96388ec0b6fe9ce5ecf8f379746640f86f7cce4e0688bd3668ce0e814"

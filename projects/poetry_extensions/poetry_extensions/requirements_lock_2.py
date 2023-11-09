@@ -17,17 +17,24 @@ def main(
     file_o: str = None,
     include_dev_group: bool = False,
     only_top_deps: bool = True,
+    flatten_top_deps: bool = False,
 ) -> None:
     """
     kwargs:
         include_dev_group (-d):
+        flatten_top_deps:
+            FIXME: do not set it true, there is a bug which leaks non-relevant  |
+                platform dependencies into the flatten list.
     """
     file_i = f'{cwd}/poetry.lock'
     file_o = file_o or f'{cwd}/requirements.lock'
     
     data_i = loads(file_i, 'toml')
     data_o = [
-        '# pip install -r {} --no-deps'.format(fs.basename(file_o)),
+        '# pip install -r {} {}'.format(
+            fs.basename(file_o),
+            '--no-deps' if flatten_top_deps else '',
+        ).rstrip(),
         '--index-url https://pypi.tuna.tsinghua.edu.cn/simple',
         '',
     ]
@@ -40,9 +47,13 @@ def main(
     
     if only_top_deps:
         top_deps = _get_top_dependencies(
-            f'{cwd}/pyproject.toml', include_dev_group)
-        all_deps = _get_all_dependencies(data_i)
-        top_deps = set(_extend_top_dependencies(top_deps, all_deps))
+            f'{cwd}/pyproject.toml', include_dev_group
+        )
+        if flatten_top_deps:
+            all_deps = _get_all_dependencies(data_i)
+            top_deps = set(_extend_top_dependencies(top_deps, all_deps))
+        else:
+            top_deps = set(top_deps)
     else:
         top_deps = None
     
@@ -52,7 +63,14 @@ def main(
             continue
         
         info[name]['version'] = item['version']
-        if item['source']['type'] != 'legacy':
+        if item['source']['type'] == 'legacy':
+            if item['source']['reference'] == 'likianta-hosted':
+                info[name]['url'] = '{}/{}/{}'.format(
+                    item['source']['url'],
+                    name,
+                    item['files'][0]['file'],
+                )
+        else:
             info[name]['url'] = item['source']['url']
         
         if 'dependencies' in item:
@@ -65,16 +83,15 @@ def main(
         dict_ = info[name]
         print(name, ':i')
         if dict_['version']:
-            data_o.append(
-                '{name}=={version}{custom_url}{markers}'.format(
-                    name=name,
-                    version=dict_['version'],
-                    custom_url=(x := dict_['url']) and f' @ {x}' or '',
-                    markers=(x := dict_['markers']) and f' ; {x}' or '',
-                ).rstrip()
-            )
+            if dict_['url']:
+                line = '{} @ {}'.format(name, dict_['url'])
+            else:
+                line = '{}=={}'.format(name, dict_['version'])
+            if dict_['markers']:
+                line += ' ; {}'.format(dict_['markers'])
+            data_o.append(line)
         else:
-            print(f'skip {name}', ':v3')
+            print(f'skip {name}', ':v3s')
     
     dumps(data_o, file_o, 'plain')
     print('done', fs.relpath(file_o), ':t')
