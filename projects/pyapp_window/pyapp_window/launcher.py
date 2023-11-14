@@ -4,7 +4,7 @@ from subprocess import Popen
 
 from time import sleep
 
-from .native_window import open_native_window
+from .webview_window import open_native_window
 
 
 def launch(

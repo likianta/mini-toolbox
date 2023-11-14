@@ -1,6 +1,6 @@
 from argsense import cli
 
-from .native_window import open_native_window
+from .webview_window import open_native_window
 
 
 @cli.cmd()

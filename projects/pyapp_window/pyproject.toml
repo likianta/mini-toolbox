@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyapp-window"
-version = "0.3.2"
+version = "0.4.0a4"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
 # readme = "README.md"
@@ -8,10 +8,22 @@ authors = ["likianta <likianta@foxmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 argsense = "*"
-toga = "^0.4.0"
+
+#[tool.poetry.group.webview.dependencies]
+pywebview = { version = "*", platform = "win32" }
+# toga = "^0.4.0"
+toga = { version = "^0.4.0", platform = "darwin" }
+# wxpython = "^4.2.0"
+# wxpython = { version = "^4.2.0", markers = "sys_platform != 'darwin'" }
+wxpython = { version = "^4.2.0", platform = "linux" }
+# wxpython = { version = "^4.2.0", markers = "sys_platform == 'linux'" }
 
 # explicitly specify version for toga dependency on windows.
-pythonnet = { version = "^3.0.0", python = ">=3.8,<3.13", platform = "win32" }  # <- toga (windows)
+# pythonnet = { version = "^3.0.0", python = ">=3.8,<3.13", platform = "win32" }  # <- toga (windows)
+
+[tool.poetry.group.dev.dependencies]
+pywebview = "*"
+wxpython = "*"
 
 [[tool.poetry.source]]
 name = "tsinghua"
