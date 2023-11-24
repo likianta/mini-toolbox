@@ -64,10 +64,11 @@ def get_subproj_deps(
         if k == 'python': continue
         out[k] = v
     
-    for group_name, dict_ in conf_i['tool']['poetry']['group'].items():
-        if group_name == 'dev' and not include_dev_group: continue
-        print(f'{prefix}/{subproj_name}:{group_name}', ':ivs')
-        out.update(dict_['dependencies'])
+    if 'group' in conf_i['tool']['poetry']:
+        for group_name, dict_ in conf_i['tool']['poetry']['group'].items():
+            if group_name == 'dev' and not include_dev_group: continue
+            print(f'{prefix}/{subproj_name}:{group_name}', ':ivs')
+            out.update(dict_['dependencies'])
     
     return out
 
