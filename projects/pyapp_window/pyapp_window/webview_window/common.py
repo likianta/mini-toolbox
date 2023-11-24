@@ -1,6 +1,7 @@
 import re
 import subprocess as sp
 import typing as t
+from time import sleep
 from urllib.error import URLError
 from urllib.request import urlopen
 
@@ -59,5 +60,5 @@ def _wait(timeout: float, interval: float = 1) -> t.Iterator[int]:
     count = int(timeout / interval)
     for i in range(count):
         yield i
-        time.sleep(interval)
+        sleep(interval)
     raise TimeoutError(f'timeout in {timeout} seconds (with {count} loops)')
