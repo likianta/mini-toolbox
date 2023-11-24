@@ -22,7 +22,7 @@ priority = "default"
 [[tool.poetry.source]]
 name = "likianta-hosted"
 url = "http://likianta.pro:2006/"
-priority = "explicit"
+priority = "supplemental"
 
 [build-system]
 requires = ["poetry-core"]

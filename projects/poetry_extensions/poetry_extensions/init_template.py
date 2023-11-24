@@ -14,8 +14,8 @@ template = dedent("""
     version = "0.1.0"
     description = ""
     authors = ["likianta <likianta@foxmail.com>"]
-    readme = "README.md"
-    packages = [{ include = "$project_name_lowercase" }]
+    # readme = "README.md"
+    packages = [{ include = "$project_name_snakecase" }]
     
     [tool.poetry.dependencies]
     python = "^3.11"
@@ -25,6 +25,11 @@ template = dedent("""
     url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
     priority = "default"
     
+    [[tool.poetry.source]]
+    name = "likianta-hosted"
+    url = "http://likianta.pro:2006/"
+    priority = "supplemental"
+
     [build-system]
     requires = ["poetry-core"]
     build-backend = "poetry.core.masonry.api"
@@ -46,16 +51,14 @@ def main(target_dir: str = None, package_name: str = None) -> None:
     
     print(target_dir, project_name, package_name, ':lv2')
     
-    output = template.replace(
-        '$project_name_kebabcase',
-        project_name,
-    ).replace(
-        '$project_name_lowercase',
-        package_name,
+    output = (
+        template
+        .replace('$project_name_kebabcase', project_name)
+        .replace('$project_name_snakecase', package_name)
     )
     dumps(output, target_dir + '/pyproject.toml')
 
 
 if __name__ == '__main__':
-    # pox projects/poetry_one_step/poetry_init.py
+    # pox poetry_extensions/init_template.py
     cli.run(main)
