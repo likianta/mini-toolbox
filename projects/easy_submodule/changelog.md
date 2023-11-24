@@ -2,6 +2,14 @@
 
 - recursively pull.
 
+### 0.3.4 (2023-11-24)
+
+- fix poetry spec.
+
+### 0.3.3 (2023-11-07)
+
+- integrate copilot backend launching in pyapp-window (dependency).
+
 ### 0.3.2 (2023-11-03)
 
 - fix saving cache.

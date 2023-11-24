@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "easy-submodule"
-version = "0.3.4a0"
+version = "0.3.4"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
 
@@ -9,7 +9,7 @@ python = "^3.8"
 # argsense = "^0.5.4"
 argsense = { version = "^0.5.5a0", source = "likianta-hosted" }
 lk-utils = "^2.7.2"
-pyapp-window = "^0.3.0"
+pyapp-window = { version = "^0.4.0a5", source = "likianta-hosted" }
 streamlit = { version = "^1.28.0", python = "!=3.9.7" }
 # streamlit-float = "*"
 toml = "*"
@@ -22,7 +22,7 @@ priority = "default"
 [[tool.poetry.source]]
 name = "likianta-hosted"
 url = "http://likianta.pro:2006/"
-priority = "primary"
+priority = "supplemental"
 
 [tool.poetry.scripts]
 easy-submodule = "easy_submodule.ui.launcher:main"

@@ -77,6 +77,6 @@ def _add_content_to_pyproj_file(additional_content: str, file: str) -> None:
     if '# --- auto gen' in content_i:
         content_i = content_i[:content_i.index('# --- auto gen')]
     content_o = '{}\n\n# --- auto gen\n\n{}'.format(
-        content_i.rstrip(), additional_content
+        content_i.rstrip(), additional_content.lstrip()
     )
     dumps(content_o, file, ftype='plain')
