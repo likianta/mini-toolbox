@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyapp-window"
-version = "0.3.3b0"
+version = "0.3.3"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
 # readme = "README.md"

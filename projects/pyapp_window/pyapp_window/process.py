@@ -12,7 +12,8 @@ class ProcessWrapper:
         # assert self._core.daemon is True
     
     def start(self) -> None:
-        self._core.start()
+        if not isinstance(self._core, Popen):
+            self._core.start()
     
     def close(self) -> None:
         if isinstance(self._core, Thread):
