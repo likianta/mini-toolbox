@@ -1,4 +1,5 @@
 import os
+import re
 
 import lk_logger
 from argsense import cli
@@ -10,15 +11,15 @@ lk_logger.setup(quiet=True, show_varnames=True)
 
 template = dedent("""
     [tool.poetry]
-    name = "$project_name_kebabcase"
+    name = "$package_name$"
     version = "0.1.0"
     description = ""
     authors = ["likianta <likianta@foxmail.com>"]
     # readme = "README.md"
-    packages = [{ include = "$project_name_snakecase" }]
+    packages = [{ include = "$package_name_snakecase$" }]
     
     [tool.poetry.dependencies]
-    python = "^3.11"
+    python = "^$pyversion$"
     
     [[tool.poetry.source]]
     name = "tsinghua"
@@ -37,28 +38,33 @@ template = dedent("""
 
 
 @cli.cmd()
-def main(target_dir: str = None, package_name: str = None) -> None:
+def main(
+    target_dir: str = None,
+    package_name: str = None,
+    pyversion: str = '3.11',
+) -> None:
     if target_dir is None:
         target_dir = os.getcwd()
-    
-    project_name = fs.dirname(target_dir)
-    assert project_name == (
-        package_name.lower().replace('_', '-').replace(' ', '-')
-    ), ('project name must be a kebab-case string!', project_name)
-    
     if package_name is None:
-        package_name = project_name.replace('-', '_')
-    
-    print(target_dir, project_name, package_name, ':lv2')
+        package_name = (
+            fs.dirname(target_dir)
+            .lower()
+            .replace('_', '-')
+            .replace(' ', '-')
+        )
+    assert re.match(r'[-a-z]+', package_name)
+    print(package_name, ':v2')
     
     output = (
         template
-        .replace('$project_name_kebabcase', project_name)
-        .replace('$project_name_snakecase', package_name)
+        .replace('$package_name$', package_name)
+        .replace('$package_name_snakecase$', package_name.replace('-', '_'))
+        .replace('$pyversion$', pyversion)
     )
-    dumps(output, target_dir + '/pyproject.toml')
+    dumps(output, target_dir + '/pyproject.toml', 'plain')
 
 
 if __name__ == '__main__':
-    # pox poetry_extensions/init_template.py
+    # pox poetry_extensions/init_template.py <dir>
+    # pox poetry_extensions/init_template.py <dir> --pyversion 3.8
     cli.run(main)
