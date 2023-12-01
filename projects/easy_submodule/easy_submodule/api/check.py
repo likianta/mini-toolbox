@@ -1,18 +1,13 @@
 import os.path
 
 from lk_utils import normpath
-
 from .lock import get_current_info
 from ..profile import load_profile
 
 
-def check_submodules(profile_path: str) -> None:
+def main(profile_path: str = '.submodules.yaml', verbose: bool = False) -> bool:
+    need_sync = False
     profile = load_profile(profile_path)
-    
-    overview = {
-        'need_sync': False,
-    }
-    
     for name, info in profile.items():
         print(name, ':i2')
         branch0, commit0 = get_current_info(info['path'])
@@ -32,7 +27,9 @@ def check_submodules(profile_path: str) -> None:
             ),
         }, ':l')
         if not is_sync:
-            overview['need_sync'] = True
+            need_sync = True
     
     print('overview', ':dt')
     print(overview, ':l')
+    return need_sync
+_
