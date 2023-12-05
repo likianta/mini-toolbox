@@ -1,6 +1,7 @@
 ### 0.4.0
 
 - multiple backends support, for different platforms
+- battery included (chrome app mode)
 
 ### 0.3.3
 

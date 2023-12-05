@@ -43,11 +43,3 @@ class App(toga.App):
         )
         self.main_window.content = self._view
         self.main_window.show()
-
-
-if __name__ == '__main__':
-    # pox pyapp_window/webview_window/toga_impl.py
-    open_native_window(
-        'WebView Example',
-        'https://www.google.com/',
-    )

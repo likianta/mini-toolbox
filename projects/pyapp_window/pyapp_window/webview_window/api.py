@@ -15,9 +15,21 @@ def open_native_window(
     if check_url:
         wait_webpage_ready(url)
     
-    from .toga_impl import App
-    app = App(title, url, size=size, **kwargs)
-    app.main_loop()
+    # from .webbrowser_impl import App
+    # app = App(title, url, size=size, **kwargs)
+    # app.mainloop()
+    
+    if sys.platform == 'linux':
+        import webbrowser
+        webbrowser.open_new_tab(url)
+    else:
+        from .toga_impl import App
+        app = App(title, url, size=size, **kwargs)
+        app.main_loop()
+    
+    # from .toga_impl import App
+    # app = App(title, url, size=size, **kwargs)
+    # app.main_loop()
     
     # """
     # different webview backend for platforms:
