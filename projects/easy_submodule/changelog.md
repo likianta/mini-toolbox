@@ -2,9 +2,9 @@
 
 - recursively pull.
 
-### 0.3.5 (wip)
+### 0.3.5 (2023-12-06)
 
-- mark `pyapp-window` dependency as optional for linux platform
+- fix pip installing on linux cause of `pyapp-window` dependency
 
 ### 0.3.4 (2023-11-24)
 
