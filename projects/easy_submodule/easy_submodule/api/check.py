@@ -5,7 +5,7 @@ from .lock import get_current_info
 from ..profile import load_profile
 
 
-def main(profile_path: str = '.submodules.yaml', verbose: bool = False) -> bool:
+def check_submodules(profile_path: str = '.submodules.yaml', verbose: bool = False) -> bool:
     need_sync = False
     profile = load_profile(profile_path)
     for name, info in profile.items():
@@ -30,6 +30,5 @@ def main(profile_path: str = '.submodules.yaml', verbose: bool = False) -> bool:
             need_sync = True
     
     print('overview', ':dt')
-    print(overview, ':l')
+    print(profile, ':l')
     return need_sync
-_
