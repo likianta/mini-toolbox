@@ -1,19 +1,14 @@
 [tool.poetry]
-name = "mini-toolbox"
-version = "0.1.0"
+name = "timetick"
+version = "0.1.0b1"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
-packages = [{include = "mini_toolbox"}]
+# readme = "README.md"
+packages = [{ include = "timetick" }]
 
 [tool.poetry.dependencies]
-python = "^3.11"
-argsense = "*"
-ipython = "*"
-lk-logger = "*"
-lk-utils = "*"
-pysignal = { version = "^1.0.0", source = "likianta-hosted" }
+python = "^3.8"
 rich = "^13.7.0"
-watchdog = "*"
 
 [[tool.poetry.source]]
 name = "tsinghua"
