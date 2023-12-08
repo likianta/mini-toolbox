@@ -1,3 +1,5 @@
+import atexit
+import os.path
 from contextlib import contextmanager
 from functools import wraps
 from inspect import currentframe
@@ -20,13 +22,14 @@ class Fixture:
     
     def __init__(self) -> None:
         self.records = {}
+        atexit.register(self.report)
     
     @contextmanager
     def timing(self, label: str = None) -> None:
         if label is None:
             caller_frame = currentframe().f_back
             label = '{}:{}'.format(
-                caller_frame.f_code.co_filename,
+                os.path.relpath(caller_frame.f_code.co_filename),
                 caller_frame.f_lineno,
             )
         if label not in self.records:
@@ -53,12 +56,12 @@ class Fixture:
     
     def report(self) -> None:
         table = rich.table.Table(
-            'label',
-            'accumulative_time/s',
+            'label/id',
+            'accumulative_time',
             'call_count',
-            'average_time/ms',
-            'shortest/ms',
-            'longest/ms',
+            'average_call',
+            'shortest',
+            'longest',
         )
         table.columns[0].style = 'cyan'
         table.columns[1].style = 'yellow'
@@ -69,11 +72,11 @@ class Fixture:
         for label, data in self.records.items():
             table.add_row(
                 label,
-                str(round(data['accu_time'], 2)),
+                str(round(data['accu_time'], 2)) + 's',
                 str(data['count']),
-                str(round(data['accu_time'] / data['count'] * 1000, 2)),
-                str(round(data['shortest'] * 1000, 2)),
-                str(round(data['longest'] * 1000, 2)),
+                str(round(data['accu_time'] / data['count'] * 1000, 2)) + 'ms',
+                str(round(data['shortest'] * 1000, 2)) + 'ms',
+                str(round(data['longest'] * 1000, 2)) + 'ms',
             )
         rich.print(table)
 
