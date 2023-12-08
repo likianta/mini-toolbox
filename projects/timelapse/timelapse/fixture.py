@@ -7,7 +7,7 @@ import rich
 import rich.table
 
 
-def timee(func):
+def timeit(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         with fixture.timing():

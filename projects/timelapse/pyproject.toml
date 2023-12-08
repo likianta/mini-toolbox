@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "timetick"
-version = "0.1.0b1"
+name = "timelapse"
+version = "0.1.0b3"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
 # readme = "README.md"
-packages = [{ include = "timetick" }]
+packages = [{ include = "timelapse" }]
 
 [tool.poetry.dependencies]
 python = "^3.8"

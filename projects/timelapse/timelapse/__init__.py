@@ -1,3 +1,3 @@
 from .fixture import fixture
-from .fixture import timee
+from .fixture import timeit
 from .fixture import timing
