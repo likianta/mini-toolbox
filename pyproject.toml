@@ -12,12 +12,15 @@ ipython = "*"
 lk-logger = "*"
 lk-utils = "*"
 pysignal = { version = "^1.0.0", source = "likianta-hosted" }
-rich = "^13.7.0"
-watchdog = "*"
+
+# projects/car_energy_consumption
+streamlit = "^1.29.0"
+# streamlit-shadcn-ui = "^0.1.17"
+watchdog = "*"  # <- streamlit
 
 [[tool.poetry.source]]
 name = "tsinghua"
-url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
 priority = "default"
 
 [[tool.poetry.source]]
