@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "timelapse"
-version = "0.1.0b6"
+version = "0.1.1"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
 # readme = "README.md"

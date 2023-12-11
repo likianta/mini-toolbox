@@ -22,7 +22,11 @@ class Fixture:
     
     def __init__(self) -> None:
         self.records = {}
-        atexit.register(self.report)
+        
+        @atexit.register
+        def _on_exit() -> None:
+            if self.records:
+                self.report()
     
     @contextmanager
     def timing(self, label: str = None) -> None:
@@ -83,3 +87,4 @@ class Fixture:
 
 fixture = Fixture()
 timing = fixture.timing
+report = fixture.report
