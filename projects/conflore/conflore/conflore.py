@@ -1,6 +1,7 @@
-import atexit
 import typing as t
 from os.path import exists
+
+import atexit
 
 from .load_and_dump import dumps
 from .load_and_dump import loads
@@ -13,11 +14,11 @@ class Conflore:
     _on_save_callbacks_kv: t.Dict[str, t.Callable[[], t.Any]]
     
     def __init__(
-            self,
-            file: str,
-            default: dict = None,
-            auto_save=False,
-            **kwargs
+        self,
+        file: str,
+        default: dict = None,
+        auto_save: bool = False,
+        **kwargs
     ):
         """
         args:
