@@ -7,27 +7,29 @@ from types import FunctionType
 
 class T:
     _Event = t.Any
-    _FuncId = int
     _NewValue = t.Any
     _OldValue = t.Any
+    DuplicateLocalsScheme = t.Literal['exclusive', 'ignore', 'override']
     Func = t.TypeVar(
         'Func',
         bound=t.Union[
             t.Callable[[], t.Any],
             t.Callable[[_NewValue], t.Any],
             t.Callable[[_Event, _NewValue], t.Any],
-            # # t.Callable[[_OldValue, _NewValue], t.Any],
             t.Callable[[_Event, _OldValue, _NewValue], t.Any],
         ],
     )
     FuncArgsNum = int  # the number of arguments. 0-3
-    Funcs = t.Dict[_FuncId, t.Tuple[Func, FuncArgsNum]]
-    
-    
-class config:  # noqa
+    FuncId = str
+    Funcs = t.Dict[FuncId, t.Tuple[Func, FuncArgsNum]]
+
+
+class _Config:
+    duplicate_locals_scheme: T.DuplicateLocalsScheme = 'override'
     use_thread_pool: bool = False
 
 
+config = _Config()
 # http://c.biancheng.net/view/2627.html
 _pool = ThreadPoolExecutor(max_workers=1)
 
@@ -109,7 +111,12 @@ class Signal:
     
     # noinspection PyUnresolvedReferences
     def bind(self, func: T.Func) -> None:
-        if id(func) in self._funcs: return
+        id = _get_func_id(func)
+        if (
+            id in self._funcs and
+            config.duplicate_locals_scheme == 'ignore'
+        ):
+            return
         argcount = get_func_args_count(func)
         assert argcount in (
             0, 1, 2, 3  # fmt:skip
@@ -121,10 +128,10 @@ class Signal:
                 2: old value, new value
                 3: component, old value, new value
         '''
-        self._funcs[id(func)] = (func, argcount)
+        self._funcs[id] = (func, argcount)
     
     def unbind(self, func: T.Func) -> None:
-        self._funcs.pop(id(func), None)
+        self._funcs.pop(_get_func_id(func), None)
     
     def unbind_all(self) -> None:
         self._funcs.clear()
@@ -165,7 +172,7 @@ class _PropagationChain:
     signal binding.
     """
     
-    _chain: t.Set[int]
+    _chain: t.Set[T.FuncId]
     _is_locked: bool
     _lock_owner: t.Optional[Signal]
     
@@ -188,8 +195,8 @@ class _PropagationChain:
         """
         check if function already triggered in this propagation chain.
         """
-        if id(func) not in self._chain:
-            self._chain.add(id(func))
+        if (id := _get_func_id(func)) not in self._chain:
+            self._chain.add(id)
             return True
         else:
             return False
@@ -217,6 +224,15 @@ def get_func_args_count(func: FunctionType) -> int:
     cnt = func.__code__.co_argcount - len(func.__defaults__ or ())
     if 'method' in str(func.__class__): cnt -= 1
     return cnt
+
+
+def _get_func_id(func) -> T.FuncId:
+    # related test: tests/duplicate_locals.py
+    if config.duplicate_locals_scheme == 'exclusive':
+        return str(id(func))
+    else:
+        # https://stackoverflow.com/a/46479810
+        return func.__qualname__
 
 
 _propagation_chain = _PropagationChain()
