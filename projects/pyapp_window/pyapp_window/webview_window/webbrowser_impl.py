@@ -5,7 +5,7 @@ import webbrowser
 
 import sys
 
-from .common import get_center_pos
+from ..util import get_center_pos
 
 
 class App:
@@ -43,7 +43,7 @@ class App:
             )
             if proc.poll() is None:  # means worked
                 return
-        # fallback to standlib webbrowser
+        # fallback to stdlib webbrowser
         webbrowser.open_new_tab(self.url)
 
 

@@ -2,7 +2,7 @@ import typing as t
 
 import toga  # noqa
 
-from .common import get_center_pos
+from ..util import get_center_pos
 
 
 class App(toga.App):

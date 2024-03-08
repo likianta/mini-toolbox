@@ -1,6 +1,6 @@
 from .launcher import launch
-from .webview_window import get_center_pos
-from .webview_window import get_screen_size
+from .util import get_center_pos
+from .util import get_screen_size
 from .webview_window import open_native_window
 
-__version__ = '0.4.0'
+__version__ = '0.5.0'

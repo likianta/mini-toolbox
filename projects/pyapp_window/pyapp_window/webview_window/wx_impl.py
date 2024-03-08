@@ -3,7 +3,7 @@ import typing as t
 import wx  # noqa
 from wx.html2 import WebView  # noqa
 
-from .common import wait_webpage_ready
+from ..util import wait_webpage_ready
 
 
 class MyFrame(wx.Frame):

@@ -1,11 +1,10 @@
 import re
 import subprocess as sp
+import sys
 import typing as t
 from time import sleep
 from urllib.error import URLError
 from urllib.request import urlopen
-
-import sys
 
 
 def get_center_pos(window_size: t.Tuple[int, int]) -> t.Tuple[int, int]:

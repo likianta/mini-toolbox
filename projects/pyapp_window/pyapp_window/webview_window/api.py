@@ -1,7 +1,12 @@
 import sys
 import typing as t
 
-from .common import wait_webpage_ready
+try:
+    import toga
+except ImportError:
+    toga = None
+
+from ..util import wait_webpage_ready
 
 
 def open_native_window(
@@ -23,40 +28,9 @@ def open_native_window(
         import webbrowser
         webbrowser.open_new_tab(url)
     else:
-        from .toga_impl import App
+        if toga:
+            from .toga_impl import App
+        else:
+            from .webbrowser_impl import App
         app = App(title, url, size=size, **kwargs)
-        app.main_loop()
-    
-    # from .toga_impl import App
-    # app = App(title, url, size=size, **kwargs)
-    # app.main_loop()
-    
-    # """
-    # different webview backend for platforms:
-    #     darwin: uses toga
-    #         pros: lightweight, native
-    #         cons:
-    #             - fow windows: poetry cannot resolve 'pythonnet' dependency.
-    #             - for linux: no binary build, and requires installing libraries
-    #                 via `apt install`.
-    #     windows: uses pywebview.
-    #         cons:
-    #             - for macos: pywebview cannot work in poetry virtual
-    #                 environment.
-    #     linux: uses wxpython.
-    #         cons:
-    #             - wxpython has large size.
-    # """
-    # if sys.platform == 'darwin' or sys.platform == 'win32':
-    #     from .toga_impl import App
-    #     app = App(title, url, size=size, **kwargs)
-    #     app.main_loop()
-    # elif sys.platform == 'linux':
-    #     from .wx_impl import MyFrame, wx
-    #     app = wx.App()
-    #     MyFrame(title, url, size, **kwargs)
-    #     app.MainLoop()
-    # elif sys.platform == 'win32':
-    #     raise NotImplementedError
-    # else:
-    #     raise Exception(f'unsupported platform: {sys.platform}')
+        app.mainloop()

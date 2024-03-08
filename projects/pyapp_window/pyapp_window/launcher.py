@@ -49,10 +49,6 @@ def launch(
                 break
             sleep(1)
     else:
-        open_native_window(
-            title=title,
-            url=url,
-            **kwargs
-        )
+        open_native_window(title=title, url=url, **kwargs)
     
     print('exit program')
