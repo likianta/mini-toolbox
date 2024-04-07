@@ -41,14 +41,16 @@ def launch(
         proc_front.start()
         
         while True:
-            if not proc_front.is_alive():
+            if not proc_front.alive:
+                print('frontend closed', ':vsp')
                 proc_back.close()
                 break
-            if not proc_back.is_alive():
+            if not proc_back.alive:
+                print('backend shutdown', ':vsp')
                 proc_front.close()
                 break
             sleep(1)
     else:
         open_native_window(title=title, url=url, **kwargs)
     
-    print('exit program')
+    print('exit program', ':v4sp')

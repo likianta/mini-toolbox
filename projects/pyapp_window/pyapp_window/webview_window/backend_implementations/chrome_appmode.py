@@ -5,10 +5,10 @@ import webbrowser
 
 import sys
 
-from ..util import get_center_pos
+from ._base import BaseApplication
 
 
-class App:
+class Application(BaseApplication):
     
     def __init__(
         self,
@@ -19,13 +19,10 @@ class App:
         pos: t.Optional[t.Tuple[int, int]] = None,
         icon: str = None,
     ) -> None:
-        self.title = title
-        self.url = url
+        super().__init__(title, url, size=size, pos=pos)
         self._favicon = icon  # TODO
-        self._pos = pos or get_center_pos(size)
-        self._size = size
     
-    def mainloop(self) -> None:
+    def start(self) -> None:
         if exe := find_executable():
             proc = sp.Popen(
                 (

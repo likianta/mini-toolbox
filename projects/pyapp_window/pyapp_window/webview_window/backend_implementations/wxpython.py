@@ -1,3 +1,7 @@
+"""
+TODO: refactor based on `._base.BaseApplication`
+"""
+
 import typing as t
 
 import wx  # noqa

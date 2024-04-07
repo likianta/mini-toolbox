@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "streamlit-sugar"
-version = "0.1.0"
+version = "0.2.0b3"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
 # readme = "README.md"
@@ -8,6 +8,8 @@ packages = [{ include = "streamlit_sugar" }]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+# argsense = "^0.5.0"
+lk-utils = "^2.9.3"
 streamlit = { version = "^1.32.0", python = "!=3.9.7" }
 
 [[tool.poetry.source]]

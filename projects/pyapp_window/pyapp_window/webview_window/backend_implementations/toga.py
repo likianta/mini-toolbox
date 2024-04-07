@@ -2,13 +2,12 @@ import typing as t
 
 import toga  # noqa
 
-from ..util import get_center_pos
+from ._base import BaseApplication
 
 
-class App(toga.App):
-    url: str
-    _pos: t.Tuple[int, int]
-    _size: t.Tuple[int, int]
+# noinspection PyUnresolvedReferences
+class Application(BaseApplication, toga.App):
+    main_window: toga.MainWindow
     _view: toga.WebView
     
     def __init__(
@@ -18,18 +17,23 @@ class App(toga.App):
         *,
         size: t.Tuple[int, int] = (800, 600),
         pos: t.Optional[t.Tuple[int, int]] = None,
-        icon: str = None,
+        **kwargs
     ) -> None:
-        self.url = url
-        self._pos = pos or get_center_pos(size)
-        self._size = size
-        super().__init__(
+        BaseApplication.__init__(
+            self, title, url, size=size, pos=pos
+        )
+        toga.App.__init__(
+            self,
             formal_name=title,
-            app_id='dev.likianta.brilliant',
-            icon=icon,
+            app_id=kwargs.get('appid', 'dev.likianta.pyapp_window'),
+            icon=kwargs.get('icon', None),
         )
     
-    # override
+    # override BaseApplication
+    def start(self) -> None:
+        self.main_loop()
+    
+    # override toga.App
     def startup(self) -> None:
         # noinspection PyTypeChecker
         self.main_window = toga.MainWindow(
