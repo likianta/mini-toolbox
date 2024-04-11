@@ -4,16 +4,18 @@ import streamlit as st
 
 from lk_utils import fs
 from lk_utils.textwrap import dedent
+from . import scope
 
 
-def _init_session(dir: str, suffix: str) -> dict:
-    if __package__ not in st.session_state:
-        st.session_state[__package__] = {
+def _get_session(dir: str, suffix: str) -> dict:
+    if __name__ not in st.session_state:
+        st.session_state[__name__] = {}
+    if scope.scope.key not in st.session_state[__name__]:
+        st.session_state[__name__][scope.scope.key] = {
             'names'         : refresh(dir, suffix, 10),
             'selected_index': 0,
-            # 'show_only_top10': True,
         }
-    return st.session_state[__package__]
+    return st.session_state[__name__][scope.scope.key]
 
 
 def refresh(dir: str, suffix: str, max_count: int = None) -> list:
@@ -28,49 +30,57 @@ def pick_file(
     dir: str,
     suffix: str,
     title: str = 'Pick a file from list',
-    default_expanded: bool = True
+    default_expanded: bool = True,
+    scope_key: str = __name__,
 ) -> t.Optional[str]:
-    session = _init_session(dir, suffix)
-    
     def _refresh(top10: bool) -> None:
         session['names'] = refresh(dir, suffix, 10 if top10 else None)
         st.rerun()
     
-    with st.expander(title, default_expanded):
-        top10 = st.checkbox(
-            'Show only latest 10 files', True, on_change=_refresh
-        )
+    with scope.scope(scope_key):
+        session = _get_session(dir, suffix)
         
-        if session['names']:
-            name = st.radio(
-                'Select file', session['names'], index=session['selected_index']
+        with st.expander(title, default_expanded):
+            top10 = scope.checkbox(
+                'Show only latest 10 files',
+                True,
+                on_change=_refresh,
+                key='top10'
             )
-        else:
-            name = None
-            st.warning(dedent(
-                '''
-                No file found in target directory! Please check your path or
-                click "Refresh" button to re-index.
-
-                ```
-                {}
-                ```
-                '''.format(fs.abspath(dir))
-            ))
-        
-        if st.button('Refresh'):
-            _refresh(top10)
-        if not name:
-            return
-        if _rename('{}/{}'.format(dir, name)):
-            _refresh(top10)
+            
+            if session['names']:
+                name = scope.radio(
+                    'Select file',
+                    session['names'],
+                    index=session['selected_index'],
+                    key='file_select'
+                )
+            else:
+                name = None
+                st.warning(dedent(
+                    '''
+                    No file found in target directory! Please check your path
+                    or click "Refresh" button to re-index.
+    
+                    ```
+                    {}
+                    ```
+                    '''.format(fs.abspath(dir))
+                ))
+            
+            if scope.button('Refresh', key='refresh'):
+                _refresh(top10)
+            if not name:
+                return
+            if _rename('{}/{}'.format(dir, name)):
+                _refresh(top10)
     
     return '{}/{}'.format(dir, name)
 
 
 def _rename(old_file: str) -> str:
     dir, stem, ext = fs.split(old_file, 3)
-    temp = st.text_input('Rename file', stem)
+    temp = scope.text_input('Rename file', stem)
     if temp == stem:
         return ''
     
