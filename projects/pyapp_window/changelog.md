@@ -1,3 +1,10 @@
+
+### 0.5.0
+
+- unify backend interfaces
+- fix exiting issue
+- adaptive window size respect to the screen size
+
 ### 0.4.0
 
 - multiple backends support, for different platforms
