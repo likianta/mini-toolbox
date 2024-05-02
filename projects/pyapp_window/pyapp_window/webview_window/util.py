@@ -37,7 +37,7 @@ def get_screen_size() -> t.Tuple[int, int]:
         width = root.winfo_screenwidth()
         height = root.winfo_screenheight()
         root.destroy()
-        return width, height
+        return width, height - 80  # -80: strip the height of the taskbar
     
     def via_system_api() -> t.Tuple[int, int]:
         ret = sp.run(
@@ -49,7 +49,7 @@ def get_screen_size() -> t.Tuple[int, int]:
         m = re.search(r'Resolution: (\d+) x (\d+)', ret.stdout)
         w, h = map(int, m.groups())
         # print(ret, (w, h), ':v')
-        return w, h
+        return w, h - 80
     
     if sys.platform == 'darwin':
         try:
