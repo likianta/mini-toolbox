@@ -37,6 +37,9 @@ class ProcessWrapper:
         else:
             pid = self._prog.pid
             parent = psutil.Process(pid)
+            # print('kill process [{}] {}'.format(pid, parent.name()), ':v4s')
             for child in parent.children(recursive=True):
+                # print('    |- kill [{}] {}'.format(
+                #     child.pid, child.name()), ':v4s')
                 child.kill()
             parent.kill()

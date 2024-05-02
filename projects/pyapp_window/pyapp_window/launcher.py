@@ -18,12 +18,14 @@ def launch(
     wait_url_ready: bool = False,
     **kwargs
 ) -> None:
+    print(copilot_backend, ':v')
     if copilot_backend:
         proc_back = ProcessWrapper(
             copilot_backend
             if isinstance(copilot_backend, (Popen, Process, Thread))
             else Process(target=copilot_backend, daemon=True)
         )
+        # print('start backend', ':v')
         proc_back.start()
         
         proc_front = ProcessWrapper(
@@ -38,6 +40,7 @@ def launch(
                 daemon=True
             )
         )
+        # print('start frontend', ':v')
         proc_front.start()
         
         while True:

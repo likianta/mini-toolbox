@@ -1,3 +1,6 @@
+"""
+ref: https://github.com/mhils/native_web_app/blob/master/native_web_app.py
+"""
 import shutil
 import subprocess as sp
 import typing as t
@@ -45,9 +48,6 @@ class Application(BaseApplication):
 
 
 def find_executable() -> t.Optional[str]:
-    """
-    ref: https://github.com/mhils/native_web_app/blob/master/native_web_app.py
-    """
     is_win = sys.platform == 'win32'
     # noinspection PyTypeChecker
     possible_names: t.Iterator[str] = filter(None, (
