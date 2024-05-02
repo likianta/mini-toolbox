@@ -7,13 +7,27 @@ from urllib.error import URLError
 from urllib.request import urlopen
 
 
+def adapt_size_to_screen(window_size: t.Tuple[int, int]) -> t.Tuple[int, int]:
+    """
+    if window size is larger than screen size, adapt it to the screen size.
+    """
+    w0, h0 = get_screen_size()
+    w1, h1 = window_size
+    ratio1 = h1 / w1
+    if h1 > h0:
+        h1 = int(h0 * 0.95)
+        w1 = int(h1 / ratio1)
+    if w1 > w0:
+        w1 = int(w0 * 0.95)
+        h1 = int(w1 * ratio1)
+    return w1, h1
+
+
 def get_center_pos(window_size: t.Tuple[int, int]) -> t.Tuple[int, int]:
-    if sys.platform == 'darwin':
-        w0, h0 = get_screen_size()
-        w1, h1 = window_size
-        return (w0 - w1) // 2, (h0 - h1) // 2
-    else:
-        return 100, 100
+    w0, h0 = get_screen_size()
+    w1, h1 = window_size
+    x, y = (w0 - w1) // 2, (h0 - h1) // 2
+    return (x if x >= 0 else 0), (y if y >= 0 else 0)
 
 
 def get_screen_size() -> t.Tuple[int, int]:
@@ -37,10 +51,12 @@ def get_screen_size() -> t.Tuple[int, int]:
         # print(ret, (w, h), ':v')
         return w, h
     
-    try:
-        return via_system_api()
-    except Exception:
-        return via_tkinter()
+    if sys.platform == 'darwin':
+        try:
+            return via_system_api()
+        except Exception:
+            pass
+    return via_tkinter()
 
 
 def wait_webpage_ready(url: str, timeout: float = 10) -> None:
