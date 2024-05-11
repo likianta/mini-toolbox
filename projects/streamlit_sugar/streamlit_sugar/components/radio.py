@@ -22,15 +22,16 @@ def radio_idx(
 def radio_key(
     label: str,
     options: t.Dict[str, str],
-    index: int = 0,
+    default: str = None,
     horizontal: bool = True,
     **kwargs
 ) -> str:
+    keys = tuple(options.keys())
     return st.radio(
         label,
         options.keys(),
         format_func=lambda x: options[x],
         horizontal=horizontal,
-        index=index,
+        index=keys.index(default) if default else 0,
         **kwargs
     )
