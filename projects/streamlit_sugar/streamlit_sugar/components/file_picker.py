@@ -14,6 +14,7 @@ def _get_session(dir: str, suffix: str) -> dict:
         st.session_state[__name__][scope.scope.key] = {
             'names'         : refresh(dir, suffix, 10),
             'selected_index': 0,
+            'show_top10': None,
         }
     return st.session_state[__name__][scope.scope.key]
 
@@ -33,7 +34,7 @@ def pick_file(
     default_expanded: bool = True,
     scope_key: str = __name__,
 ) -> t.Optional[str]:
-    def _refresh(top10: bool) -> None:
+    def _refresh(top10: bool = True) -> None:
         session['names'] = refresh(dir, suffix, 10 if top10 else None)
         st.rerun()
     
@@ -44,9 +45,12 @@ def pick_file(
             top10 = scope.checkbox(
                 'Show only latest 10 files',
                 True,
-                on_change=_refresh,
+                # on_change=_refresh,
                 key='top10'
             )
+            if session['show_top10'] != top10:
+                session['show_top10'] = top10
+                _refresh(top10)
             
             if session['names']:
                 name = scope.radio(

@@ -46,9 +46,18 @@ if __name__ == '__main__':  # fraud ide typing analysis
     text_input = st.text_input
 else:
     globals().update({
-        'button'  : ScopedComponent('button'),
-        'checkbox': ScopedComponent('checkbox'),
-        'number_input'   : ScopedComponent('number_input'),
-        'radio'   : ScopedComponent('radio'),
-        'text_input'   : ScopedComponent('text_input'),
+        'button'      : ScopedComponent('button'),
+        'checkbox'    : ScopedComponent('checkbox'),
+        'number_input': ScopedComponent('number_input'),
+        'radio'       : ScopedComponent('radio'),
+        'text_input'  : ScopedComponent('text_input'),
     })
+
+__all__ = [
+    'scope',
+    'button',
+    'checkbox',
+    'number_input',
+    'radio',
+    'text_input',
+]
