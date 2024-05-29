@@ -22,7 +22,7 @@ def radio_idx(
 def radio_key(
     label: str,
     options: t.Dict[str, str],
-    default: str = None,
+    index: t.Union[str, int] = None,
     horizontal: bool = True,
     **kwargs
 ) -> str:
@@ -32,6 +32,9 @@ def radio_key(
         options.keys(),
         format_func=lambda x: options[x],
         horizontal=horizontal,
-        index=keys.index(default) if default else 0,
+        index=(
+            index if isinstance(index, int) else
+            keys.index(index) if index else 0
+        ),
         **kwargs
     )
