@@ -9,8 +9,9 @@ usage:
         class T:
             ...
 """
+from .const import FALSE_CASE
 from .const import TRUTH_CASE
 from .fake import FakeType
 from .register import register_fake_type
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'

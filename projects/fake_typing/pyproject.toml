@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fake_typing"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Likianta <likianta@foxmail.com>"]
 description = ""
 
@@ -10,7 +10,7 @@ python = "^3.8"
 [[tool.poetry.source]]
 name = "tsinghua"
 url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
-priority = "default"
+priority = "primary"
 
 [build-system]
 requires = ["poetry"]
