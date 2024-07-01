@@ -14,4 +14,4 @@ from .const import TRUTH_CASE
 from .fake import FakeType
 from .register import register_fake_type
 
-__version__ = '0.1.2'
+__version__ = '0.1.3'
