@@ -1,5 +1,5 @@
 
-### 0.2.0 (wip)
+### 0.2.0 (2024-08-01)
 
 - introduce `scope`
 - add file picker component
