@@ -650,17 +650,17 @@ reference = "tsinghua"
 
 [[package]]
 name = "lk-utils"
-version = "2.10.8a2"
+version = "2.10.8"
 description = "LK Utils is a set of utility wrappers made for data processing."
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "lk_utils-2.10.8a2-py3-none-any.whl", hash = "sha256:9ff90427267cd835f658a302d5b5c435dd7d81c967956f8a12a3f712acc79e65"},
+    {file = "lk_utils-2.10.8-py3-none-any.whl", hash = "sha256:f06dbfc8ebdf4a08293d6f15215c94e2ae131f35f63df44bdb5496e4e8afab61"},
 ]
 
 [package.dependencies]
 argsense = ">=0.5.8,<0.6.0"
-lk-logger = ">=5.7.6,<6.0.0"
+lk-logger = ">=5.7.6,<7.0.0"
 psutil = ">=6.0.0,<7.0.0"
 pyyaml = ">=6.0.0,<7.0.0"
 rich = ">=13.0.0,<14.0.0"
@@ -1660,13 +1660,13 @@ reference = "tsinghua"
 
 [[package]]
 name = "streamlit"
-version = "1.37.0"
+version = "1.37.1"
 description = "A faster way to build and share data apps"
 optional = false
 python-versions = ">=3.8, !=3.9.7"
 files = [
-    {file = "streamlit-1.37.0-py2.py3-none-any.whl", hash = "sha256:d17e2d32b075a270a97f134ab5d22bbb98b4e474fa261ff49dc4a2b380386c84"},
-    {file = "streamlit-1.37.0.tar.gz", hash = "sha256:463ef728ba21e74e05122e3704e8af644a7bdbb5822e281b8daf4a0a48761879"},
+    {file = "streamlit-1.37.1-py2.py3-none-any.whl", hash = "sha256:0651240fccc569900cc9450390b0a67473fda55be65f317e46285f99e2bddf04"},
+    {file = "streamlit-1.37.1.tar.gz", hash = "sha256:bc7e3813d94a39dda56f15678437eb37830973c601e8e574f2225a7bf188ea5a"},
 ]
 
 [package.dependencies]
@@ -2054,4 +2054,4 @@ reference = "tsinghua"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "f1dcc6c662ebf7047fd199109fad7bd0cd29b2d952d1e0907776707a653c781b"
+content-hash = "42da48f5b6f121f0b49abf959c5f337eb3903dbb4db86c256d5b4cbf6e441f9c"
