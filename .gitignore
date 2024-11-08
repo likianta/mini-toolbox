@@ -3,6 +3,7 @@
 /projects/easy_submodule/_easy_submodule_cache.pkl
 /projects/replace_pip_vendor_urllib3/urllib3/
 /projects/replace_pip_vendor_urllib3/urllib3-*/
+/projects/streamlit_lkext/
 __pycache__/
 dist/
 .DS_Store

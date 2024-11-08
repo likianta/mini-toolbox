@@ -7,15 +7,17 @@ packages = [{include = "mini_toolbox"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
-argsense = "*"
-hyperdiv = "^0.1.3"
+# argsense = "*"
+argsense = { version = "^0.5.9a0", source = "likianta-host" }
+# hyperdiv = "^0.1.3"
 ipython = "*"
-lk-logger = "*"
-# lk-utils = "^2.10.7"
-lk-utils = { version = "^2.10.8", source = "likianta-host" }
-streamlit = "^1.37.0"
+lk-logger = { version = "^6.0.2", source = "likianta-host" }
+lk-utils = { version = "^3.0.2a7", source = "likianta-host" }
+pillow = "^10.4.0"
+pyperclip = "^1.9.0"
+streamlit = "^1.39.0"
+streamlit-canary = { version = "^0.1.0a4", source = "likianta-host" }
 # streamlit-shadcn-ui = "^0.1.17"
-# watchdog = "*"  # <- streamlit
 
 [[tool.poetry.source]]
 name = "tsinghua"
@@ -24,7 +26,7 @@ priority = "primary"
 
 [[tool.poetry.source]]
 name = "likianta-host"
-url = "http://likianta.pro:2006/"
+url = "http://likianta.pro:2131/"
 priority = "supplemental"
 
 [build-system]
