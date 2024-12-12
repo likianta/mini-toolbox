@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mini-toolbox"
-version = "0.1.0"
+version = "0.0.0"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
 packages = [{include = "mini_toolbox"}]
@@ -11,12 +11,13 @@ python = "^3.12"
 argsense = { version = "^0.5.9a0", source = "likianta-host" }
 # hyperdiv = "^0.1.3"
 ipython = "*"
-lk-logger = { version = "^6.0.2", source = "likianta-host" }
-lk-utils = { version = "^3.0.2a7", source = "likianta-host" }
+lk-logger = { version = "^6.0.3", source = "likianta-host" }
+lk-utils = { version = "^3.1.2a4", source = "likianta-host" }
 pillow = "^10.4.0"
 pyperclip = "^1.9.0"
-streamlit = "^1.39.0"
-streamlit-canary = { version = "^0.1.0a4", source = "likianta-host" }
+streamlit = "^1.40.0"
+streamlit-canary = { version = "^0.1.0a11", source = "likianta-host" }
+streamlit-code-editor = "^0.1.21"
 # streamlit-shadcn-ui = "^0.1.17"
 
 [[tool.poetry.source]]

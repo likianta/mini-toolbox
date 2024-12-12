@@ -1,6 +1,7 @@
 /.idea/
 /projects/chrome_app_mode/__chrome_app_mode_temp_data__/
 /projects/easy_submodule/_easy_submodule_cache.pkl
+/projects/ora_car_energy_statistics/_dataset.json
 /projects/replace_pip_vendor_urllib3/urllib3/
 /projects/replace_pip_vendor_urllib3/urllib3-*/
 /projects/streamlit_lkext/
