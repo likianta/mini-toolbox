@@ -7,23 +7,30 @@ from lk_utils import fs
 
 st.set_page_config('Ora Cat Car Energy Statistics')
 
-_state = sc.session.init(
-    lambda: {
-        'dataset': fs.load(
-            fs.xpath('_dataset.json'),
-            default={
-                '0000-00-00': {
-                    'total_mileage'               : [],
-                    'displayed_leftover_mileage'  : [],
-                    'displayed_battery_percentage': [],
-                    'energy_consumption'          : [],
-                }
+
+def _init_session() -> dict:
+    dataset: dict = fs.load(
+        fs.xpath('_dataset.json'),
+        default={
+            '0000-00-00': {
+                'total_mileage'               : [],
+                'displayed_leftover_mileage'  : [],
+                'displayed_battery_percentage': [],
+                'energy_consumption'          : [],
             }
-        ),
-        'current': '0000-00-00'
-    },
-    version=1
-)
+        }
+    )
+    current = '0000-00-00'
+    for last in reversed(dataset.keys()):
+        current = last
+        break
+    return {
+        'dataset': dataset,
+        'current': current,
+    }
+    
+
+_state = sc.session.init(_init_session, version=2)
 
 
 def main() -> None:
@@ -70,7 +77,7 @@ def main() -> None:
             current_dataset['displayed_battery_percentage'].append(c)
             current_dataset['energy_consumption'].append(d)
     
-    place1 = st.container()
+    place1 = st.container(border=True)
     
     with st.expander('Revise dataset'):
         revise_dataset()
@@ -106,15 +113,18 @@ def main() -> None:
                 ),
                 (
                     'Display changed mileage',
-                    '{}km'.format(f)
+                    '{}km ({:.1%})'.format(f, f / e)
                 ),
                 (
                     'Display changed mileage (by percentage)',
-                    '{}km'.format(round(500 * (g / 100))),
+                    '{}km ({:.1%})'.format(
+                        x := round(500 * (g / 100)),
+                        x / e,
+                    ),
                 ),
                 (
                     'Objective estimated changed mileage',
-                    '{}km (similarity to actual: {})'
+                    '{}km ({:.1%})'
                     .format(
                         round(
                             x := (
@@ -122,16 +132,22 @@ def main() -> None:
                                 current_dataset['energy_consumption'][-1] * 100
                             )
                         ),
-                        '{:.1%}'.format(x / e if x < e else e / x)
+                        # x / e if x < e else e / x
+                        x / e,
                     )
                 )
             )
         )
         
+        st.info('You have driven {}km since last charge.'.format(
+            current_dataset['total_mileage'][-1] -
+            current_dataset['total_mileage'][0]
+        ))
+        
         if current_dataset['displayed_battery_percentage'][-1] <= 10:
             st.warning('Very low energy level!')
         else:
-            st.write('**Objective estimated leftover mileage: {}km**'.format(
+            st.success('Objective estimated leftover mileage: {}km.'.format(
                 round(
                     (55 * ((current_dataset['displayed_battery_percentage'][-1]
                      - 10) / 100))
@@ -141,7 +157,7 @@ def main() -> None:
             ))
 
 
-def revise_dataset():
+def revise_dataset() -> None:
     _state['current'] = st.selectbox(
         'Select date',
         _state['dataset'].keys(),
