@@ -29,7 +29,10 @@ class Main(QObject):
     
     @property
     def _relpath(self) -> str:
-        return fs.relpath(self.img_root, self.doc_root)
+        out = fs.relpath(self.img_root, self.doc_root)
+        if not out.startswith(('./', '../')):
+            out = './' + out
+        return out
     
     @slot(str, result=bool)
     def set_doc_root(self, dirpath: str) -> bool:
@@ -52,7 +55,8 @@ class Main(QObject):
         # grab image from clipboard
         img = ImageGrab.grabclipboard()
         # save image
-        filename = f'{timestamp("ymdhns")}.png'
+        # filename = f'{timestamp("ymdhns")}.png'
+        filename = f'{timestamp("hns")}.png'
         img.save(f'{self.img_root}/{filename}')
         # copy path to clipboard, in markdown format
         link = '![{}]({}/{})'.format(filename[:-4], self._relpath, filename)

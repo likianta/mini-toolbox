@@ -4,7 +4,8 @@ from lk_utils import fs
 from lk_utils.textwrap import dedent
 from os.path import realpath
 
-st.set_page_config('Make Link')
+if __name__ == '__main__':
+    st.set_page_config('Make Link')
 
 # _config = sc.session.init(
 #     lambda: {
@@ -23,7 +24,7 @@ def main() -> None:
             'Quick select',
             sorted(
                 (
-                    f'{preset_dir_1}/aircontrol/airmise',
+                    f'{preset_dir_1}/airmise/airmise',
                     f'{preset_dir_1}/argsense-cli/argsense',
                     f'{preset_dir_1}/depsland',
                     f'{preset_dir_1}/lk-logger/lk_logger',
@@ -62,7 +63,7 @@ def main() -> None:
             if fs.exists(path_o):
                 if fs.islink(path_o):
                     if fs.normpath(realpath(path_o)) == path_i:
-                        st.warning('Already linked')
+                        st.success('Linked')
                         return
                 if fs.basename(path_o) != fs.basename(path_i):
                     path_o = '{}/{}'.format(path_o, fs.basename(path_i))
