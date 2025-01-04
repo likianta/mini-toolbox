@@ -30,12 +30,12 @@ reference = "tsinghua"
 
 [[package]]
 name = "argsense"
-version = "0.6.0"
+version = "0.6.1"
 description = "New command line interface based on Rich library."
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "argsense-0.6.0-py3-none-any.whl", hash = "sha256:eed208a46b6c61f77dbb324ac49e21186c6ffb52f4b71c7454b632a4b8406354"},
+    {file = "argsense-0.6.1-py3-none-any.whl", hash = "sha256:b6e233c413a661238e5c10012124e9c42025917f328e0550073a069af6489dd6"},
 ]
 
 [package.dependencies]
@@ -806,12 +806,12 @@ reference = "likianta-host"
 
 [[package]]
 name = "lk-utils"
-version = "3.1.2a5"
+version = "3.1.2b0"
 description = "LK Utils is a set of utility wrappers made for data processing."
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "lk_utils-3.1.2a5-py3-none-any.whl", hash = "sha256:cc94deb038a5dd5f200605b1b1948d5bc27d22ea7ceb1221d2195ae4ec29f56d"},
+    {file = "lk_utils-3.1.2b0-py3-none-any.whl", hash = "sha256:c831f999c9ddcf4a8f36e38fe70f76364cd97710b76c6151d38ce337700ee0ad"},
 ]
 
 [package.dependencies]
@@ -2023,6 +2023,25 @@ url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "tsinghua"
 
 [[package]]
+name = "streamlit-ace"
+version = "0.1.1"
+description = "Ace editor component for Streamlit."
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "streamlit_ace-0.1.1-py3-none-any.whl", hash = "sha256:cdf908a90058fa831fb720d29e2aef35a0f5799eac33e2b2e58ba9f3631b1aa5"},
+    {file = "streamlit_ace-0.1.1.tar.gz", hash = "sha256:1852fa19707685fd4241be9256c1ab1a89da4a3b8c28ab286e3bff122d3a1686"},
+]
+
+[package.dependencies]
+streamlit = ">=0.63"
+
+[package.source]
+type = "legacy"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "tsinghua"
+
+[[package]]
 name = "streamlit-canary"
 version = "0.1.0a11"
 description = ""
@@ -2276,4 +2295,4 @@ reference = "tsinghua"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "f97648e79c8b2b392471fa48ff5d364cdf35593c3a8f66220f61e589379686fd"
+content-hash = "bcd64b77723be13908561a7d656dec3fbb9d1cd96f4a1693b830eae5b6e69320"
