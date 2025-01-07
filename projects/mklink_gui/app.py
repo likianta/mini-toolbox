@@ -18,8 +18,8 @@ def main() -> None:
     with st.container(border=True):
         input_holder = st.empty()
         
-        preset_dir_1 = r'C:/Likianta/workspace/dev_master_likianta'
-        preset_dir_2 = r'C:/Likianta/workspace/com_jlsemi_likianta'
+        preset_dir_1 = r'C:/Likianta/workspace/dev.master.likianta'
+        preset_dir_2 = r'C:/Likianta/workspace/com.jlsemi.likianta'
         preset = st.radio(
             'Quick select',
             sorted(
