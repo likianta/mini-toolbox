@@ -1,11 +1,8 @@
 /.idea/
-/projects/chrome_app_mode/__chrome_app_mode_temp_data__/
-/projects/easy_submodule/_easy_submodule_cache.pkl
+/lib/
 /projects/ora_car_energy_statistics/_dataset.json
-/projects/replace_pip_vendor_urllib3/urllib3/
-/projects/replace_pip_vendor_urllib3/urllib3-*/
 /projects/translate_readme/config.yaml
 __pycache__/
 dist/
-.DS_Store
 .cache
+.DS_Store
