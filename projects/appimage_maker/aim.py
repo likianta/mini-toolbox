@@ -7,9 +7,7 @@ import re
 import cairosvg
 import lk_logger
 from argsense import cli
-from lk_utils import dumps
 from lk_utils import fs
-from lk_utils import loads
 from lk_utils import run_cmd_args
 
 lk_logger.setup(quiet=True, show_funcname=False, show_varnames=True)
@@ -71,7 +69,7 @@ def main(app_path: str) -> None:  # DELETE
     icon_path = fs.abspath(x)
     
     # dump desktop file
-    content = loads(desktop_path, 'plain')
+    content = fs.load(desktop_path, 'plain')
     content = (
         content.replace(
             'Exec=',
@@ -98,7 +96,7 @@ def main(app_path: str) -> None:  # DELETE
         'Icon={}'.format(fs.basename(icon_path, False)),
         content,
     )
-    dumps(
+    fs.dump(
         content,
         x := '{}/.local/share/applications/{}'.format(
             home_dir, fs.basename(desktop_path)
@@ -125,21 +123,27 @@ def create_desktop(
     check_running: bool = True,
 ) -> None:
     """
+    params:
+        app_path (-p):
+        app_name (-n): use title case, e.g. 'Hello World'.
+        icon_name (-i): accepts '.svg' or '.png' files. prefers '.png'.
+            you can give an absolute path or a relative path.
+            the relative path should be relative to `~/.local/share/icons`.
+        show_terminal (-t):
+        check_running (-r):
+        
     ref:
         how to create desktop file: https://askubuntu.com/questions/1403802/
         replacing system icons: https://www.solvetechnow.com/post/how-to \
         -change-app-icon-in-ubuntu
         custom icons: https://github.com/vinceliuice/WhiteSur-icon-theme
-    
-    kwargs:
-        check_running (-r):
     """
     if check_running and _is_mounted(fs.basename(app_path)):
         print(
             'app is running, please consider closing it first! '
             'otherwise you may have to kill the process in system monitor '
             'manually.',
-            ':v3',
+            ':v6',
         )
         if input('continue? [y/N] ') not in ('y', 'Y'): return
     
@@ -176,7 +180,7 @@ def create_desktop(
         'Type=Application',
     ]
     output = '\n'.join(filter(None, output))
-    dumps(
+    fs.dump(
         output,
         desktop_path := '{}/.local/share/applications/{}.desktop'.format(
             home_dir, app_name.lower().replace(' ', '-').replace('_', '-')
@@ -194,18 +198,12 @@ def _convert_svg_to_png(svg_path: str, png_path: str = None) -> str:
 
 
 def _is_mounted(appimage_name: str) -> bool:
-    mlist = run_cmd_args('mount', shell=True, verbose=True).splitlines()
+    mlist = run_cmd_args('mount', shell=True, verbose=False).splitlines()
     mnames = tuple(line.split()[0] for line in mlist)
     return appimage_name in mnames
 
 
 if __name__ == '__main__':
-    # pox projects/ubuntu_appimage_launcher/ail.py -h
-    # pox projects/ubuntu_appimage_launcher/ail.py create-desktop $appimage \
-    #   $appname
-    # pox projects/ubuntu_appimage_launcher/ail.py create-desktop \
-    #   /home/likianta/Desktop/apps /clash/clash-verge-1.3.5.AppImage \
-    #   'Clash Verge' /home/likianta/.local /share/icons/whitesur-apps \
-    #   /akonadiconsole.svg -R
-    # pox projects/ubuntu_appimage_launcher/ail.py convert-icon $svg_path
+    # pox projects/appimage_maker/aim.py -h
+    # pox projects/appimage_maker/aim.py create-desktop -h
     cli.run()
