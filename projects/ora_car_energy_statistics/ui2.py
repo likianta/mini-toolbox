@@ -36,7 +36,7 @@ def main() -> None:
                 'Current percentage (%)',
                 min_value=0,
                 max_value=100,
-                value=90,
+                value=100,
                 step=1,
             )
             e = st.number_input(
@@ -51,15 +51,15 @@ def main() -> None:
                 return
             else:
                 st.success(
-                    'Estimated leftover range: {}km.\n\n'
-                    'For each percent you can drive {}km.'
+                    'Estimated leftover range: :blue[{}km].\n\n'
+                    'For each percent you can drive :blue[{}km].'
                     .format(
                         round((a * (b / 100)) / 100 * (d - c) / (e / 100)),
-                        round((a * (b / 100)) / 100 * (100 - c) / (e / 100), 2),
+                        round((a * (b / 100)) / 100 / (e / 100), 2),
                     )
                 )
         
-        with st.expander('Your destination', True):
+        with st.expander('Your destination', False):
             f = st.number_input(
                 'The distance to your destination (km)',
                 min_value=0,

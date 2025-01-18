@@ -95,4 +95,5 @@ def _get_history():
 
 if __name__ == '__main__':
     # strun 2017 projects/localnet_chatapp/app_st.py
+    st.set_page_config('LocalChat')
     main()
