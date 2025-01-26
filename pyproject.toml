@@ -3,17 +3,17 @@ name = "mini-toolbox"
 version = "0.0.0"
 description = ""
 authors = ["likianta <likianta@foxmail.com>"]
-packages = [{include = "mini_toolbox"}]
+packages = [{include = "projects"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
-argsense = { version = "^0.6.4b1", source = "likianta-host" }
+argsense = { version = "^0.7.0b2", source = "likianta-host" }
 cairosvg = "^2.7.1"
 google-cloud-translate = "^3.19.0"
 # hyperdiv = "^0.1.8"
-ipython = "^8.30.0"
+ipython = "^8.31.0"
 lk-logger = { version = "^6.0.3", source = "likianta-host" }
-lk-utils = { version = "^3.1.3a3", source = "likianta-host" }
+lk-utils = { version = "^3.1.3a3", source = "likianta-host", extras = ["exl"] }
 markdown2 = "^2.5.2"
 markdownify = "^0.14.1"
 pillow = "^10.4.0"
