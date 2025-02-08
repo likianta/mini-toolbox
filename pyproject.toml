@@ -7,23 +7,28 @@ packages = [{include = "projects"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
-argsense = { version = "^0.7.0b2", source = "likianta-host" }
+argsense = { version = "^0.7.0b13", source = "likianta" }
 cairosvg = "^2.7.1"
 google-cloud-translate = "^3.19.0"
+hot-shelve = "^0.1.2"
 # hyperdiv = "^0.1.8"
 ipython = "^8.31.0"
-lk-logger = { version = "^6.0.3", source = "likianta-host" }
-lk-utils = { version = "^3.1.3a3", source = "likianta-host", extras = ["exl"] }
+lk-logger = { version = "^6.0.4b0", source = "likianta" }
+lk-utils = { version = "^3.1.3a3", source = "likianta", extras = ["exl"] }
 markdown2 = "^2.5.2"
 markdownify = "^0.14.1"
+oss2 = "^2.19.1"
 pillow = "^10.4.0"
-pinkrain = { version = "^0.0.0a23", source = "likianta-host" }
+pinkrain = { version = "^0.0.0a23", source = "likianta" }
 pyperclip = "^1.9.0"
+qiniu = "^7.15.0"
+requests = "^2.32.3"
 streamlit = "^1.41.0"
 streamlit-ace = "^0.1.1"
-streamlit-canary = { version = "^0.1.0a14", source = "likianta-host" }
+streamlit-canary = { version = "^0.1.0a14", source = "likianta" }
 streamlit-code-editor = "^0.1.21"
 # streamlit-shadcn-ui = "^0.1.17"
+urllib3 = "^2.3.0"
 
 [[tool.poetry.source]]
 name = "tsinghua"
@@ -31,7 +36,7 @@ url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
 priority = "primary"
 
 [[tool.poetry.source]]
-name = "likianta-host"
+name = "likianta"
 url = "http://likianta.pro:2131/"
 priority = "supplemental"
 
