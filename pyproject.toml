@@ -7,13 +7,13 @@ packages = [{include = "projects"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
-argsense = { version = "^0.7.0b13", source = "likianta" }
+argsense = { version = "^0.7.0", source = "likianta" }
 cairosvg = "^2.7.1"
 google-cloud-translate = "^3.19.0"
 hot-shelve = "^0.1.2"
 # hyperdiv = "^0.1.8"
 ipython = "^8.31.0"
-lk-logger = { version = "^6.0.4b0", source = "likianta" }
+lk-logger = { version = "^6.0.4", source = "likianta" }
 lk-utils = { version = "^3.1.3a3", source = "likianta", extras = ["exl"] }
 markdown2 = "^2.5.2"
 markdownify = "^0.14.1"

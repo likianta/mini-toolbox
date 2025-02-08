@@ -252,17 +252,17 @@ reference = "tsinghua"
 
 [[package]]
 name = "argsense"
-version = "0.7.0b13"
+version = "0.7.0"
 description = "New command line interface based on Rich library."
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "argsense-0.7.0b13-py3-none-any.whl", hash = "sha256:73e148bc8a103f8866479fce217d232134047b3402c0ae52880750eb106eee44"},
+    {file = "argsense-0.7.0-py3-none-any.whl", hash = "sha256:bd01d4084c776fd5493f43de86108562438a209b95a829254efc70541f1c649b"},
 ]
 
 [package.dependencies]
-lk-logger = ">=6.0.4b0,<7.0.0"
+lk-logger = ">=6.0.4,<7.0.0"
 rich = ">=13.9.0,<14.0.0"
 
 [package.extras]
@@ -1814,13 +1814,13 @@ reference = "tsinghua"
 
 [[package]]
 name = "lk-logger"
-version = "6.0.4b0"
+version = "6.0.4"
 description = "Python print with source map and varnames."
 optional = false
 python-versions = ">=3.8,<4.0"
 groups = ["main"]
 files = [
-    {file = "lk_logger-6.0.4b0-py3-none-any.whl", hash = "sha256:07fdcf328a3249b7dc49ca8138245875345c006d08577879337493ef4a454a81"},
+    {file = "lk_logger-6.0.4-py3-none-any.whl", hash = "sha256:10adf041a2ceb0bd5bef6b7d47b476b448197e43a4411f45e3e6a1c3281d5c74"},
 ]
 
 [package.dependencies]
@@ -4493,4 +4493,4 @@ reference = "tsinghua"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "18657b37fdac1cb29fa23655c0a0a621855603fc5dbfdc5a02ba6f430347105a"
+content-hash = "416eab4dc7ec97c7dfb5142b6f64692a75001329c26da52b56ba625b653a8329"
