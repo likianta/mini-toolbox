@@ -1,10 +1,3 @@
-"""
-usage in cmd:
-    python -m md_img_2_b64 --help
-    python -m md_img_2_b64 md2md
-    python -m md_img_2_b64 md2html
-    python -m md_img_2_b64 html2html
-"""
 from argsense import cli
 from lk_utils.filesniff import normpath
 
@@ -34,5 +27,6 @@ def html2html(file_i, file_o: str = '') -> str:
 
 
 if __name__ == '__main__':
-    # pox -m projects.markdown_to_html_with_embedded_images.md_img_2_b64 -h
+    # pox -m projects.markdown_image_base64.md_img_b64 -h
+    # pox -m projects.markdown_image_base64.md_img_b64 md2html ...
     cli.run()

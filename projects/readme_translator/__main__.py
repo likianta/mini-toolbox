@@ -1,3 +1,17 @@
+"""
+prerequisites:
+    1. gcloud auth
+        scoop install gcloud
+        gcloud init
+            when asked to pick a project, choose the one starts with -
+            'halogen...'
+        gcloud auth list
+        gcloud auth application-default login
+    2. add 'config.yaml'
+        project_id: halogen-...
+        api_secret_key: ...
+"""
+
 import re
 from uuid import uuid4
 
@@ -105,6 +119,6 @@ def convert_html_to_md(
 
 
 if __name__ == '__main__':
-    # pox projects/translate_readme/main.py -h
-    # pox projects/translate_readme/main.py translate-readme-file -h
+    # pox -m projects.readme_translator -h
+    # pox -m projects.readme_translator translate-readme-file -h
     cli.run()

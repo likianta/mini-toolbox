@@ -3,7 +3,7 @@
 /projects/markdown_image_lofter/data/*
 /projects/markdown_image_lofter/config_*.yaml
 /projects/ora_car_energy_statistics/_dataset.json
-/projects/translate_readme/config.yaml
+/projects/readme_translator/config.yaml
 
 __pycache__/
 dist/
