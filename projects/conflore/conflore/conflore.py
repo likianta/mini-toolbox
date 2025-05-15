@@ -1,10 +1,9 @@
+import atexit
 import typing as t
 from os.path import exists
 
-import atexit
-
-from .load_and_dump import dumps
-from .load_and_dump import loads
+from .io import dumps
+from .io import loads
 
 
 class Conflore:
@@ -17,47 +16,47 @@ class Conflore:
         self,
         file: str,
         default: dict = None,
+        *,
         auto_save: bool = False,
-        **kwargs
-    ):
+        version: int = 0,
+    ) -> None:
         """
-        args:
+        params:
             file: json, yaml, or pickle file.
-        kwargs:
-            version_number (int): if number is newer than the one in the file,
-                the file will be dropped.
+            version: if number is different with the one in the file, file will
+                be dropped.
         """
         self._on_save_callbacks = []
-        self._data = loads(file) if exists(file) else {}
         self._file = file
         self._on_save_callbacks_kv = {}
         
         if exists(file):
-            if v1 := kwargs.get('version_number'):
-                v0 = self._data.get('__conflore_version__', 0)
-                if v1 > v0:
-                    print(':p', f'auto drop config file "{file}" ({v1} > {v0})')
+            self._data = loads(file)
+            if version:
+                v0, v1 = self._data.get('__conflore_version__', 0), version
+                if v1 != v0:
+                    print(
+                        'auto drop last config file "{}": {} -> {}'
+                        .format(file, v0, v1), ':r2p'
+                    )
                     self._data = {'__conflore_version__': v1, **(default or {})}
-                # else: do nothing
-            # else: do nothing
         else:
-            self._data['__conflore_version__'] = kwargs.get('version_number', 0)
-            if default: self._data.update(default)
+            self._data = {'__conflore_version__': version, **(default or {})}
         
         if auto_save:
             atexit.register(self.save)
     
-    def __getitem__(self, item):
+    def __getitem__(self, item) -> t.Any:
         return self._data[item]
     
-    def __iter__(self):
+    def __iter__(self) -> t.Iterator:
         yield from self._data.items()
     
     @property
     def data(self) -> dict:
         return self._data
     
-    def bind(self, key: str, *args):
+    def bind(self, key: str, *args) -> None:
         """
         args:
             key: a dot-separated string.
