@@ -2,33 +2,32 @@
 name = "mini-toolbox"
 version = "0.0.0"
 description = ""
-authors = ["likianta <likianta@foxmail.com>"]
+authors = ["Likianta <likianta@foxmail.com>"]
 packages = [{include = "projects"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
-argsense = { version = "^0.7.0", source = "likianta" }
+argsense = { version = "^1.0.1a0", source = "likianta" }
 cairosvg = "^2.7.1"
 google-cloud-translate = "^3.19.0"
 hot-shelve = "^0.1.2"
 # hyperdiv = "^0.1.8"
-ipython = "^8.31.0"
-lk-logger = { version = "^6.0.4", source = "likianta" }
-lk-utils = { version = "^3.1.3a3", source = "likianta", extras = ["exl"] }
+ipython = "^9.3.0"
+lk-logger = { version = "^6.0.6a1", source = "likianta" }
+lk-utils = { version = "^3.3.0a12", source = "likianta", extras = ["exl"] }
 markdown2 = "^2.5.2"
 markdownify = "^0.14.1"
 oss2 = "^2.19.1"
 pillow = "^10.4.0"
-pinkrain = { version = "^0.0.0a23", source = "likianta" }
+pinkrain = { version = "^0.0.0a29", source = "likianta" }
 pyperclip = "^1.9.0"
 qiniu = "^7.15.0"
 requests = "^2.32.3"
-streamlit = "^1.41.0"
-streamlit-ace = "^0.1.1"
-streamlit-canary = { version = "^0.1.0a14", source = "likianta" }
+streamlit = "^1.45.0"
+# streamlit-ace = "^0.1.1"
+streamlit-canary = { version = "^0.1.0b5", source = "likianta" }
 streamlit-code-editor = "^0.1.21"
 # streamlit-shadcn-ui = "^0.1.17"
-urllib3 = "^2.3.0"
 
 [[tool.poetry.source]]
 name = "tsinghua"
@@ -37,9 +36,12 @@ priority = "primary"
 
 [[tool.poetry.source]]
 name = "likianta"
-url = "http://likianta.pro:2131/"
+url = "http://47.102.108.149:2131/"
 priority = "supplemental"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry-extensions]
+ignored-unused-packages = ["ipython"]
