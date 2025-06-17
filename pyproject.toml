@@ -28,6 +28,7 @@ streamlit = "^1.45.0"
 streamlit-canary = { version = "^0.1.0b5", source = "likianta" }
 streamlit-code-editor = "^0.1.21"
 # streamlit-shadcn-ui = "^0.1.17"
+windows-toasts = { version = "^1.0.0", platform = "win32" }
 
 [[tool.poetry.source]]
 name = "tsinghua"
