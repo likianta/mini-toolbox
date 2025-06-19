@@ -10,19 +10,19 @@ python = "^3.12"
 argsense = { version = "^1.0.1a0", source = "likianta" }
 cairosvg = "^2.7.1"
 google-cloud-translate = "^3.19.0"
-hot-shelve = "^0.1.2"
+# hot-shelve = "^0.1.2"
 # hyperdiv = "^0.1.8"
 ipython = "^9.3.0"
 lk-logger = { version = "^6.0.6a1", source = "likianta" }
 lk-utils = { version = "^3.3.0a12", source = "likianta", extras = ["exl"] }
 markdown2 = "^2.5.2"
 markdownify = "^0.14.1"
-oss2 = "^2.19.1"
-pillow = "^10.4.0"
+# oss2 = "^2.19.1"
+# pillow = "^10.4.0"
 pinkrain = { version = "^0.0.0a29", source = "likianta" }
-pyperclip = "^1.9.0"
-qiniu = "^7.15.0"
-requests = "^2.32.3"
+# pyperclip = "^1.9.0"
+# qiniu = "^7.15.0"
+# requests = "^2.32.3"
 streamlit = "^1.45.0"
 # streamlit-ace = "^0.1.1"
 streamlit-canary = { version = "^0.1.0b5", source = "likianta" }
@@ -45,4 +45,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry-extensions]
-ignored-unused-packages = ["ipython"]
+ignore-unused-packages = ["ipython"]

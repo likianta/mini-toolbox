@@ -33,7 +33,7 @@ template = dedent(
     priority = "primary"
     
     [[tool.poetry.source]]
-    name = "likianta-host"
+    name = "likianta"
     url = "http://47.102.108.149:2131/"
     priority = "supplemental"
 

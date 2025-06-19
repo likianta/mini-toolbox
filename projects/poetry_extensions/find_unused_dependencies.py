@@ -12,7 +12,7 @@ from lk_utils import fs
 lk_logger.update(show_varnames=True)
 
 
-@cli.cmd()
+@cli
 def main(
     source_dir: str,
     include_dev_group: bool = False,
@@ -43,8 +43,13 @@ def main(
         'zmq'        : 'pyzmq',
     }
     for f in fs.findall_files(source_dir, ".py"):
+        print(f.relpath, ':is')
         code = fs.load(f.path)
-        tree = ast.parse(code)
+        try:
+            tree = ast.parse(code)
+        except TabError as e:
+            print(':v6', f.relpath, e)
+            continue
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
                 for alias in node.names:
@@ -60,6 +65,7 @@ def main(
                         top_name, top_name.replace("_", "-")
                     )
                     imported_packages.add(pkg_name)
+    print(':d')
     print(len(imported_packages))
     
     defined_packages = set()
@@ -79,7 +85,7 @@ def main(
     ignored = set() if ignored is None else set(ignored.split(','))
     if 'poetry-extensions' in conf['tool']:
         ignored.update(
-            conf['tool']['poetry-extensions']['ignored-unused-packages']
+            conf['tool']['poetry-extensions']['ignore-unused-packages']
         )
     
     flag = 0
