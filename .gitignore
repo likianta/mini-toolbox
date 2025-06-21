@@ -1,8 +1,8 @@
 /.idea/
+/deleted/
 /lib/
-/projects/markdown_image_cleaner/deleted/*
-/projects/markdown_image_lofter/data/*
-/projects/markdown_image_lofter/config_*.yaml
+/projects/local_file_sync/_conflicts/
+/projects/local_file_sync/_deleted/
 /projects/ora_car_energy_statistics/_dataset.json
 /projects/readme_translator/config.yaml
 
