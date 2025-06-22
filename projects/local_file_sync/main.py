@@ -316,26 +316,26 @@ def sync_documents(root_a: str, root_b: str, dry_run: bool = False) -> None:
     
     def _backup_conflict_file_a(file: T.Path) -> None:
         file_i = file
-        m, n, o = file.rsplit('/', 2)
+        m, n, o = _fs.split(file_i, 3)
         file_o = '{}/{}.a.{}'.format(_conflicts_dir, n, o)
         _fs.copy_file(file_i, file_o, reserve_metadata=True)
         
     def _backup_conflict_file_b(file: T.Path, mtime: int) -> None:
         file_i = file
-        m, n, o = file.rsplit('/', 2)
+        m, n, o = _fs.split(file_i, 3)
         file_o = '{}/{}.b.{}'.format(_deleted_dir, n, o)
         fs_b.download_file(file_i, file_o, mtime)
     
     def _delete_file_a(file: T.Path) -> None:
         file_i = file
-        m, n, o = file.rsplit('/', 2)
+        m, n, o = _fs.split(file_i, 3)
         file_o = '{}/{}.a.{}'.format(_deleted_dir, n, o)
         _fs.move(file_i, file_o)
         # fs_a.remove(file)
     
     def _delete_file_b(file: T.Path) -> None:
         file_i = file
-        m, n, o = file.rsplit('/', 2)
+        m, n, o = _fs.split(file_i, 3)
         file_o = '{}/{}.b.{}'.format(_deleted_dir, n, o)
         data_i = fs_b.load(file_i)
         _fs.dump(data_i, file_o, 'binary')

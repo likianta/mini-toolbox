@@ -115,6 +115,10 @@ class LocalFileSystem(BaseFileSystem):
 
 class FtpFileSystem(BaseFileSystem):
     def __init__(self, url: str) -> None:
+        # e.g. url = 'ftp://192.168.8.31:2024/Likianta/documents'
+        #   ->  host = '192.168.8.31'
+        #       port = 2024
+        #       path = '/Likianta/documents'
         a, b, c, d = url.split('/', 3)
         assert a == 'ftp:' and b == '' and d.startswith('Likianta/')
         e, f = c.rsplit(':', 1)

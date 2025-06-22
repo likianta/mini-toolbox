@@ -1700,13 +1700,13 @@ reference = "likianta"
 
 [[package]]
 name = "lk-utils"
-version = "3.2.1b1"
+version = "3.2.1b2"
 description = "LK Utils is a set of utility wrappers made for data processing."
 optional = false
 python-versions = ">=3.8,<4.0"
 groups = ["main"]
 files = [
-    {file = "lk_utils-3.2.1b1-py3-none-any.whl", hash = "sha256:bb127042e253421f4cfa9f6eb4fcf2074cde4ad8c30929333621b915b9f553e4"},
+    {file = "lk_utils-3.2.1b2-py3-none-any.whl", hash = "sha256:9f172f9d62485d78973413897c431d6bfd59197d478cb908f0ae9ec93e5bbb52"},
 ]
 
 [package.dependencies]
@@ -4433,4 +4433,4 @@ reference = "tsinghua"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "d11cacea57bbeccde425300f9a592a109c7231210d0f9e3cebf605a9bfd3821a"
+content-hash = "a1eac0976106a96ee8d7e16dca02269d4f495e0a6494e37dd784801fa0a0577d"

@@ -14,7 +14,7 @@ google-cloud-translate = "^3.19.0"
 # hyperdiv = "^0.1.8"
 ipython = "^9.3.0"
 lk-logger = { version = "^6.0.6", source = "likianta" }
-lk-utils = { version = ">=3.2.1b1,<3.3.0", source = "likianta", extras = ["exl"] }
+lk-utils = { version = ">=3.2.1b2,<3.3.0", source = "likianta", extras = ["exl"] }
 # lk-utils = { version = "^3.3.0a14", source = "likianta", extras = ["exl"] }
 markdown2 = "^2.5.2"
 markdownify = "^0.14.1"
