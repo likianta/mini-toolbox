@@ -58,15 +58,24 @@ def update_snapshot(root: str, rebuild: bool = False) -> None:
     else:
         fs.update_snapshot(data)
     
-    # TEST
     if isinstance(fs, FtpFileSystem):
-        data_i = fs.load(fs.snapshot_file)
-        _fs.dump(
-            data_i,
-            r'C:\Likianta\temp\2025-06\snapshot-test.json',
-            'binary'
-        )
+        fs.download_file(fs.snapshot_file, _fs.xpath('_remote_snapshot.json'))
     print(':t', 'done')
+
+
+@cli
+def fetch_remote_snapshot(root: str) -> None:
+    fs = FtpFileSystem(root)
+    fs.download_file(
+        fs.snapshot_file, _fs.xpath('_remote_snapshot.json')
+    )
+
+
+@cli
+def force_sync_snapshot(root_a: str, root_b: str) -> None:
+    fs_a = LocalFileSystem(root_a)
+    fs_b = FtpFileSystem(root_b)
+    fs_b.upload_file(fs_a.snapshot_file, fs_b.snapshot_file)
 
 
 @cli
@@ -192,7 +201,7 @@ def sync_documents(root_a: str, root_b: str, dry_run: bool = False) -> None:
                 'green' if '+' in m else
                 'blue' if '=' in m else
                 'red',
-                k
+                k.replace('[', '\\[')
             )
             # table.append((
             #     str(i),
@@ -209,12 +218,18 @@ def sync_documents(root_a: str, root_b: str, dry_run: bool = False) -> None:
             table.append((
                 str(i),
                 *(
-                    (colored_key, '+>', '') if m == '+>' else
-                    (colored_key, '=>', '...') if m == '=>' else
-                    ('', '->', colored_key) if m == '->' else
-                    ('', '<+', colored_key) if m == '<+' else
-                    ('...', '<=', colored_key) if m == '<=' else
-                    (colored_key, '<-', '')  # m == '<-'
+                    # (colored_key, '+>', '') if m == '+>' else
+                    # (colored_key, '=>', '...') if m == '=>' else
+                    # ('', '->', colored_key) if m == '->' else
+                    # ('', '<+', colored_key) if m == '<+' else
+                    # ('...', '<=', colored_key) if m == '<=' else
+                    # (colored_key, '<-', '')  # '<-'
+                    (colored_key, '+>', '[dim]<tocreate>[/]') if m == '+>' else
+                    (colored_key, '=>', '[dim]<outdated>[/]') if m == '=>' else
+                    ('[dim]<deleted>[/]', '->', colored_key) if m == '->' else
+                    ('[dim]<tocreate>[/]', '<+', colored_key) if m == '<+' else
+                    ('[dim]<outdated>[/]', '<=', colored_key) if m == '<=' else
+                    (colored_key, '<-', '[dim]<deleted>[/]')  # '<-'
                 )
             ))
             action_count[m.rstrip('?')] += 1
@@ -251,17 +266,17 @@ def sync_documents(root_a: str, root_b: str, dry_run: bool = False) -> None:
                 'green' if '+' in m else
                 'blue' if '=' in m else
                 'red',
-                k
+                k.replace('[', '\\[')
             )
             # noinspection PyStringFormat
             print(':ir', '{} {} {}'.format(
                 *(
-                    (colored_key, '+>', '<tocreate>') if m == '+>' else
-                    (colored_key, '=>', '<outdated>') if m == '=>' else
-                    ('<deleted>', '->', colored_key) if m == '->' else
-                    ('<tocreate>', '<+', colored_key) if m == '<+' else
-                    ('<outdated>', '<=', colored_key) if m == '<=' else
-                    (colored_key, '<-', '<deleted>')  # m == '<-'
+                    (colored_key, '+>', '[dim]<tocreate>[/]') if m == '+>' else
+                    (colored_key, '=>', '[dim]<outdated>[/]') if m == '=>' else
+                    ('[dim]<deleted>[/]', '->', colored_key) if m == '->' else
+                    ('[dim]<tocreate>[/]', '<+', colored_key) if m == '<+' else
+                    ('[dim]<outdated>[/]', '<=', colored_key) if m == '<=' else
+                    (colored_key, '<-', '[dim]<deleted>[/]')  # '<-'
                 )
             ))
             

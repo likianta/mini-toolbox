@@ -140,8 +140,9 @@ class FtpFileSystem(BaseFileSystem):
     ) -> None:
         data = self.load(file_i)
         fs.dump(data, file_o, 'binary')
-        if mtime is None:
-            raise NotImplementedError
+        if mtime is None:  # TODO
+            print(':v6', 'please manually pass mtime of {}'.format(file_i))
+            return
         os.utime(file_o, (mtime, mtime))
     
     def dump(
@@ -169,8 +170,8 @@ class FtpFileSystem(BaseFileSystem):
             self._ftp.delete(file)
         with io.BytesIO(data_bytes) as f:
             self._ftp.storbinary(f'STOR {file}', f)
-            #   note: we don't need to quote `file` even it has -
-            #   whitespaces. i.e. 'STOR 01 02.txt' is legal.
+            #   note: we don't need to quote `file` even it has whitespaces.
+            #   i.e. 'STOR 01 02.txt' is legal.
             #   besides, 'STOR "01 02.txt"' will report an error.
     
     def exist(self, path: T.Path) -> bool:
@@ -254,7 +255,7 @@ class FtpFileSystem(BaseFileSystem):
         # this method similar to `self.dump`, but keeps origin file's modify -
         # time for target.
         with open(file_i, 'rb') as f:
-            self._ftp.storbinary(f'STOR {file_o}', f)
+            self.dump(f.read(), file_o)
         self._ftp.sendcmd('MFMT {} {}'.format(
             self._time_int_2_str(mtime or fs.filetime(file_i)), file_o
         ))
