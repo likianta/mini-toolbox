@@ -144,7 +144,9 @@ class FtpFileSystem(BaseFileSystem):
             raise NotImplementedError
         os.utime(file_o, (mtime, mtime))
     
-    def dump(self, data: t.Any, file: T.Path) -> None:
+    def dump(
+        self, data: t.Any, file: T.Path, overwrite: t.Optional[True] = None
+    ) -> None:
         # file = self._normpath(file)
         
         if isinstance(data, bytes):
@@ -155,6 +157,16 @@ class FtpFileSystem(BaseFileSystem):
         else:
             raise NotImplementedError
         
+        """
+        note: `ftplib.storbinary` doesn't truncate file (i.e. empty the file) -
+        if target already exists. this means if an existing file "foo.txt" -
+        contained "abcde", and we want to write "123" to it, it finally -
+        becomes "123de". to resolve this problem, we need to check-and-delete -
+        the exiting file.
+        """
+        
+        if overwrite or self.exist(file):
+            self._ftp.delete(file)
         with io.BytesIO(data_bytes) as f:
             self._ftp.storbinary(f'STOR {file}', f)
             #   note: we don't need to quote `file` even it has -

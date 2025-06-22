@@ -29,7 +29,12 @@ cli.add_cmd(clone_project)
 
 
 @cli
-def create_snapshot(root: str, rebuild: bool = False) -> None:
+def create_snapshot(root: str) -> None:
+    update_snapshot(root, rebuild=True)
+
+
+@cli
+def update_snapshot(root: str, rebuild: bool = False) -> None:
     """
     note: ftp work takes more time, depends on network traffic.
     params:
@@ -251,12 +256,12 @@ def sync_documents(root_a: str, root_b: str, dry_run: bool = False) -> None:
             # noinspection PyStringFormat
             print(':ir', '{} {} {}'.format(
                 *(
-                    (colored_key, '+>', '') if m == '+>' else
-                    (colored_key, '=>', '...') if m == '=>' else
-                    ('', '->', colored_key) if m == '->' else
-                    ('', '<+', colored_key) if m == '<+' else
-                    ('...', '<=', colored_key) if m == '<=' else
-                    (colored_key, '<-', '')  # m == '<-'
+                    (colored_key, '+>', '<tocreate>') if m == '+>' else
+                    (colored_key, '=>', '<outdated>') if m == '=>' else
+                    ('<deleted>', '->', colored_key) if m == '->' else
+                    ('<tocreate>', '<+', colored_key) if m == '<+' else
+                    ('<outdated>', '<=', colored_key) if m == '<=' else
+                    (colored_key, '<-', '<deleted>')  # m == '<-'
                 )
             ))
             
@@ -379,11 +384,20 @@ if __name__ == '__main__':
     # pox projects/local_file_sync/main.py -h
     
     # pox projects/local_file_sync/main.py create_snapshot
-    #   ftp://172.20.128.123:2024/Likianta/documents/gitbook -r
-    # pox projects/local_file_sync/main.py create_snapshot
-    #   C:/Likianta/documents/gitbook -r
+    #   C:/Likianta/documents/gitbook
+    # pox projects/local_file_sync/main.py clone_project
+    #   C:/Likianta/documents/gitbook
+    #   ftp://172.20.128.123:2024/Likianta/documents/gitbook
+    
+    # pox projects/local_file_sync/main.py update_snapshot
+    #   C:/Likianta/documents/gitbook
+    # pox projects/local_file_sync/main.py update_snapshot
+    #   ftp://172.20.128.123:2024/Likianta/documents/gitbook
     
     # pox projects/local_file_sync/main.py sync_documents
     #   C:/Likianta/documents/gitbook
     #   ftp://172.20.128.123:2024/Likianta/documents/gitbook -d
+    # pox projects/local_file_sync/main.py sync_documents
+    #   C:/Likianta/documents/gitbook
+    #   ftp://172.20.128.123:2024/Likianta/documents/gitbook
     cli.run()
