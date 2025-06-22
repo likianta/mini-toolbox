@@ -2,6 +2,7 @@ import ftplib
 import hashlib
 import io
 import json
+import os
 import re
 import typing as t
 from datetime import datetime
@@ -130,8 +131,14 @@ class FtpFileSystem(BaseFileSystem):
         data_bytes = self.load(self.snapshot_file)
         return json.loads(data_bytes)
     
-    def download_file(self, file_i: T.Path, file_o: T.Path) -> None:
-        pass  # TODO
+    def download_file(
+        self, file_i: T.Path, file_o: T.Path, mtime: int = None
+    ) -> None:
+        data = self.load(file_i)
+        fs.dump(data, file_o, 'binary')
+        if mtime is None:
+            raise NotImplementedError
+        os.utime(file_o, (mtime, mtime))
     
     def dump(self, data: t.Any, file: T.Path) -> None:
         # file = self._normpath(file)
@@ -185,25 +192,7 @@ class FtpFileSystem(BaseFileSystem):
             for subdir in subdirs:
                 yield from recursive_find(subdir)
         
-        # https://stackoverflow.com/a/62334092/9695911
-        # https://stackoverflow.com/a/64480694/9695911
-        now = datetime.now()
-        current_timezone = now.astimezone(None).tzinfo
-        # print(current_timezone, ':v')
-        #   e.g. datetime.timezone(
-        #       datetime.timedelta(seconds=28800), 'China Standard Time'
-        #   )
-        _time_delta = current_timezone.utcoffset(now)
-        #   e.g. datetime.timedelta(seconds=28800)
-        # time_delta = current_timezone.utcoffset(now).seconds  # 28800
-        
-        _temp_file = fs.xpath('_temp/temp_hidden_file')
-        
         def get_modify_time_of_hidden_file(file: T.Path) -> int:
-            # data = self.load(file)
-            # fs.dump(data, _temp_file, 'binary')
-            # return fs.filetime(_temp_file)
-            
             file_i = file
             a, b = file.rsplit('/', 1)
             file_o = f'{a}/__{b}'
@@ -212,37 +201,17 @@ class FtpFileSystem(BaseFileSystem):
             for name, info in self._ftp.mlsd(fs.parent(file)):
                 if name == f'__{b}':
                     self._ftp.rename(file_o, file_i)
-                    return time_str_2_int(info['modify'])
+                    return self._time_str_2_int(info['modify'])
             else:
                 self._ftp.rename(file_o, file_i)
                 raise Exception(file)
-            
-        def time_str_2_int(mtime: str) -> int:
-            """
-            params:
-                mtime: e.g. '20250619064438.504'
-                    be noted this value is UTC0 time. we need to convert it to -
-                    our timezone.
-            """
-            dt = datetime(
-                *map(int, (
-                    mtime[0:4],
-                    mtime[4:6],
-                    mtime[6:8],
-                    mtime[8:10],
-                    mtime[10:12],
-                    mtime[12:14],
-                ))
-            )
-            dt += _time_delta
-            return int(dt.timestamp())
         
         hidden_files = []
         for file, info in recursive_find(self.root):
             if info is None:
                 hidden_files.append(file)
             else:
-                yield file, time_str_2_int(info['modify'])
+                yield file, self._time_str_2_int(info['modify'])
         for file in hidden_files:
             print(file, ':v6i')
             yield file, get_modify_time_of_hidden_file(file)
@@ -253,21 +222,25 @@ class FtpFileSystem(BaseFileSystem):
             f.seek(0)
             return f.read()
     
-    def make_dirs(self, dirpath: T.Path) -> None:
+    def make_dirs(self, dirpath: T.Path, precheck: bool = True) -> None:
         assert dirpath.startswith(self.root)
-        if not self.exist(dirpath):
+        if not precheck or not self.exist(dirpath):
             self._ftp.mkd(dirpath)
+    
+    make_dir = make_dirs
     
     def remove(self, file: T.Path) -> None:
         self._ftp.delete(file)
     
-    def upload_file(self, file_i: T.Path, file_o: T.Path) -> None:
+    def upload_file(
+        self, file_i: T.Path, file_o: T.Path, mtime: int = None
+    ) -> None:
         # this method similar to `self.dump`, but keeps origin file's modify -
         # time for target.
         with open(file_i, 'rb') as f:
             self._ftp.storbinary(f'STOR {file_o}', f)
         self._ftp.sendcmd('MFMT {} {}'.format(
-            self._time_int_2_str(fs.filetime(file_i)), file_o
+            self._time_int_2_str(mtime or fs.filetime(file_i)), file_o
         ))
     
     # noinspection PyTypeChecker

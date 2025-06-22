@@ -9,6 +9,7 @@ from lk_utils import timestamp
 from .filesys import FtpFileSystem
 from .filesys import LocalFileSystem
 from .filesys import T as T0
+from .init import clone_project
 
 
 class T(T0):
@@ -22,6 +23,9 @@ class T(T0):
     #   <-  delete to left
     #   ==  no change
     ComposedAction = t.Tuple[Key, Movement, T0.Time]
+
+
+cli.add_cmd(clone_project)
 
 
 @cli
@@ -232,7 +236,7 @@ def sync_documents(root_a: str, root_b: str, dry_run: bool = False) -> None:
             if m.endswith('?'):  # '=>?', '<=?'
                 assert m in ('=>?', '<=?')
                 if m == '=>?':
-                    _backup_conflict_file_b('{}/{}'.format(fs_b.root, k))
+                    _backup_conflict_file_b('{}/{}'.format(fs_b.root, k), t)
                 else:
                     _backup_conflict_file_a('{}/{}'.format(fs_a.root, k))
                 m = m[:-1]
@@ -267,7 +271,7 @@ def sync_documents(root_a: str, root_b: str, dry_run: bool = False) -> None:
                 snap_new.pop(k)
             elif m in ('<+', '<='):
                 _make_dirs_a('{}/{}'.format(fs_a.root, k))
-                _update_file_b2a(k)
+                _update_file_b2a(k, t)
                 snap_new[k] = t
             elif m == '<-':
                 _delete_file_a('{}/{}'.format(fs_a.root, k))
@@ -314,14 +318,13 @@ def sync_documents(root_a: str, root_b: str, dry_run: bool = False) -> None:
         file_i = file
         m, n, o = file.rsplit('/', 2)
         file_o = '{}/{}.a.{}'.format(_conflicts_dir, n, o)
-        _fs.copy_file(file_i, file_o)
+        _fs.copy_file(file_i, file_o, reserve_metadata=True)
         
-    def _backup_conflict_file_b(file: T.Path) -> None:
+    def _backup_conflict_file_b(file: T.Path, mtime: int) -> None:
         file_i = file
         m, n, o = file.rsplit('/', 2)
         file_o = '{}/{}.b.{}'.format(_deleted_dir, n, o)
-        data_i = fs_b.load(file_i)
-        _fs.dump(data_i, file_o, 'binary')
+        fs_b.download_file(file_i, file_o, mtime)
     
     def _delete_file_a(file: T.Path) -> None:
         file_i = file
@@ -341,14 +344,12 @@ def sync_documents(root_a: str, root_b: str, dry_run: bool = False) -> None:
     def _update_file_a2b(relpath: T.Path) -> None:
         file_i = '{}/{}'.format(fs_a.root, relpath)
         file_o = '{}/{}'.format(fs_b.root, relpath)
-        data_i = fs_a.load(file_i, binary=True)
-        fs_b.dump(data_i, file_o)
+        fs_b.upload_file(file_i, file_o)
         
-    def _update_file_b2a(relpath: T.Path) -> None:
+    def _update_file_b2a(relpath: T.Path, mtime: int) -> None:
         file_i = '{}/{}'.format(fs_b.root, relpath)
         file_o = '{}/{}'.format(fs_a.root, relpath)
-        data_i = fs_b.load(file_i)
-        fs_a.dump(data_i, file_o, binary=True)
+        fs_b.download_file(file_i, file_o, mtime)
     
     snap_new = apply_changes(final_changes)
     
