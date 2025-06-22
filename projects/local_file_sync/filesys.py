@@ -5,9 +5,11 @@ import json
 import os
 import re
 import typing as t
+from contextlib import contextmanager
 from datetime import datetime
 from lk_utils import fs
 from time import time
+from uuid import uuid1
 
 
 class T:
@@ -123,6 +125,10 @@ class FtpFileSystem(BaseFileSystem):
         assert a == 'ftp:' and b == '' and d.startswith('Likianta/')
         e, f = c.rsplit(':', 1)
         host, port, root = e, int(f), f'/{d}'
+        assert '[' not in root and ']' not in root, (
+            'ftp cannot list files if square bracket characters in the root '
+            'path', root
+        )
         
         super().__init__(root)
         
@@ -178,8 +184,8 @@ class FtpFileSystem(BaseFileSystem):
         # path = self._normpath(path)
         a, b = path.rsplit('/', 1)
         if b[0] == '.':
-            for f, _ in self._find_hidden_paths(a):
-                if f.endswith('/' + b):
+            for n, _ in self._find_hidden_names(a):
+                if n == b:
                     return True
         else:
             for name in self._ftp.nlst(a):
@@ -188,43 +194,17 @@ class FtpFileSystem(BaseFileSystem):
         return False
     
     def findall_files(self) -> t.Iterator[t.Tuple[T.Path, int]]:
-        def recursive_find(dir: T.Path) -> t.Iterator[
-            t.Tuple[str, t.Optional[dict]]
-        ]:
-            subdirs = []
-            # FIXME: ftp.msld doesn't show hidden files.
-            for name, info in self._ftp.mlsd(dir):
-                if info['type'] == 'file':
-                    yield f'{dir}/{name}', info
-                elif info['type'] == 'dir':
-                    subdirs.append(f'{dir}/{name}')
-                    # yield from self.findall_files(f'{dir}/{name}')
-                else:
-                    raise Exception(dir, name, info)
-            for path, type in self._find_hidden_paths(dir):
-                if type == 'dir':
-                    subdirs.append(path)
-                else:
-                    yield path, None
-            for subdir in subdirs:
-                yield from recursive_find(subdir)
-        
         def get_modify_time_of_hidden_file(file: T.Path) -> int:
-            file_i = file
-            a, b = file.rsplit('/', 1)
-            file_o = f'{a}/__{b}'
-            # print(':v', '{} -> {}'.format(file_i, file_o))
-            self._ftp.rename(file_i, file_o)
-            for name, info in self._ftp.mlsd(fs.parent(file)):
-                if name == f'__{b}':
-                    self._ftp.rename(file_o, file_i)
-                    return self._time_str_2_int(info['modify'])
-            else:
-                self._ftp.rename(file_o, file_i)
-                raise Exception(file)
+            with self._temp_rename_file(file) as file_x:
+                a, b = fs.split(file_x)
+                for name, info in self._ftp.mlsd(a):
+                    if name == b:
+                        return self._time_str_2_int(info['modify'])
+                else:
+                    raise Exception(file)
         
         hidden_files = []
-        for file, info in recursive_find(self.root):
+        for file, info in self._findall_files(self.root):
             if info is None:
                 hidden_files.append(file)
             else:
@@ -261,8 +241,8 @@ class FtpFileSystem(BaseFileSystem):
         ))
     
     # noinspection PyTypeChecker
-    def _find_hidden_paths(self, dir: T.Path) -> t.Iterator[
-        t.Tuple[T.Path, t.Literal['dir', 'file']]
+    def _find_hidden_names(self, dir: T.Path) -> t.Iterator[
+        t.Tuple[str, t.Literal['dir', 'file']]
     ]:
         ls: t.List[str] = []
         self._ftp.retrlines('LIST -a {}'.format(dir), ls.append)
@@ -277,7 +257,47 @@ class FtpFileSystem(BaseFileSystem):
             assert (m := pattern.match(line)), line
             a, b = m.groups()
             if b[0] == '.':
-                yield f'{dir}/{b}', 'dir' if a == 'd' else 'file'
+                yield b, 'dir' if a == 'd' else 'file'
+            else:
+                break
+    
+    def _findall_files(
+        self, root: T.Path, _outward_path: T.Path = None
+    ) -> t.Iterator[t.Tuple[T.Path, t.Optional[dict]]]:
+        assert root.startswith('/') and '[' not in root and ']' not in root
+        
+        files = []
+        subdirs = []
+        
+        for name, info in self._ftp.mlsd(root):
+            if info['type'] == 'file':
+                files.append((name, info))
+            elif info['type'] == 'dir':
+                subdirs.append(name)
+            else:
+                raise Exception((_outward_path, root), name, info)
+            
+        for name, type in self._find_hidden_names(root):
+            if type == 'file':
+                files.append((name, None))
+            else:
+                subdirs.append(name)
+        
+        for name, info in sorted(files, key=lambda x: x[0]):
+            yield f'{_outward_path or root}/{name}', info
+        
+        for name in sorted(subdirs):
+            if '[' in name or ']' in name:
+                with self._temp_rename_dir(f'{root}/{name}') as temp_dir:
+                    yield from self._findall_files(
+                        root=temp_dir,
+                        _outward_path=f'{_outward_path or root}/{name}'
+                    )
+            else:
+                yield from self._findall_files(
+                    root=f'{root}/{name}',
+                    _outward_path=f'{_outward_path or root}/{name}'
+                )
     
     # def _normpath(self, path: T.Path) -> T.Path:
     #     if path == '.':
@@ -286,6 +306,47 @@ class FtpFileSystem(BaseFileSystem):
     #         return fs.normpath('{}/{}'.format(self.root, path))
     #     else:
     #         return path
+    
+    @contextmanager
+    def _temp_rename(self, a: T.Path, b: T.Path) -> t.Iterator[T.Path]:
+        self._ftp.rename(a, b)
+        try:
+            yield b
+        except Exception as e:
+            raise e
+        finally:
+            self._ftp.rename(b, a)
+    
+    # _temp_rename_dir = partial(
+    #     _temp_rename, b='/Likianta/test/_local_file_sync/_temp_dir'
+    # )
+    # _temp_rename_file = partial(
+    #     _temp_rename, b='/Likianta/test/_local_file_sync/_temp_file'
+    # )
+    
+    @contextmanager
+    def _temp_rename_dir(
+        self, a: T.Path, b: T.Path = None
+    ) -> t.Iterator[T.Path]:
+        if b is None:
+            b = (
+                '/Likianta/test/_local_file_sync/'
+                '._temp_dir_{}'.format(uuid1().hex)
+            )
+        with self._temp_rename(a, b) as x:
+            yield x
+    
+    @contextmanager
+    def _temp_rename_file(
+        self, a: T.Path, b: T.Path = None
+    ) -> t.Iterator[T.Path]:
+        if b is None:
+            b = (
+                '/Likianta/test/_local_file_sync/'
+                '_temp_file_{}'.format(uuid1().hex)
+            )
+        with self._temp_rename(a, b) as x:
+            yield x
     
     @staticmethod
     def _time_int_2_str(mtime: int) -> str:
