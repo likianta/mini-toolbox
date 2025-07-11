@@ -22,7 +22,7 @@ template = dedent(
     # license = "MIT"
     
     # [project.urls]
-    # homepage = ""
+    # homepage = "https://github.com/likianta/<package_name>"
     
     [tool.poetry.dependencies]
     python = "^<pyversion>"
@@ -34,7 +34,7 @@ template = dedent(
     
     [[tool.poetry.source]]
     name = "likianta"
-    url = "http://47.102.108.149:2131/"
+    url = "<likianta_source_url>"
     priority = "supplemental"
 
     [build-system]
@@ -49,10 +49,15 @@ def main(
     target_dir: str,
     package_name: str = None,
     pyversion: str = '3.12',
+    custom_source_url: str = 'http://localhost:2131/',
 ) -> None:
     """
     params:
         pyversion (-v):
+        custom_source_url (-u):
+            - http://localhost:2131/
+            - http://47.102.108.149:2131/
+            - http://likianta.top:2131/
     """
     if target_dir is None:
         target_dir = os.getcwd()
@@ -71,6 +76,7 @@ def main(
         .replace('<package_name>', package_name)
         .replace('<package_name_snakecase>', package_name.replace('-', '_'))
         .replace('<pyversion>', pyversion)
+        .replace('<likianta_source_url>', custom_source_url)
     )
     fs.dump(output, target_dir + '/pyproject.toml', 'plain')
 
