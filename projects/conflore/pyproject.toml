@@ -1,14 +1,15 @@
-[tool.poetry]
+[project]
 name = "conflore"
-version = "0.2.2b2"
+version = "0.2.2"
 description = "Load and save configurations in a simple way."
-authors = ["Likianta <likianta@foxmail.com>"]
 license = "MIT"
+authors = [{ name = "Likianta", email = "likianta@foxmail.com" }]
+packages = [{ include = "conflore" }]
+requires-python = ">=3.8"
+dynamic = ["dependencies"]
 
-[[tool.poetry.source]]
-name = "tsinghua"
-url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
-priority = "primary"
+[project.optional-dependencies]
+yml = ["pyyaml"]  # pip install conflore[yml]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -17,8 +18,10 @@ pyyaml = { version = "^6.0.0", optional = true }
 [tool.poetry.group.dev.dependencies]
 pyyaml = "^6.0.2"
 
-[tool.poetry.extras]
-yml = ["pyyaml"]  # pip install conflore[yml]
+[[tool.poetry.source]]
+name = "tsinghua"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+priority = "primary"
 
 [build-system]
 requires = ["poetry"]

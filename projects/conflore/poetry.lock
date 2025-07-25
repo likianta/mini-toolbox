@@ -65,7 +65,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "tsinghua"
 
 [extras]
@@ -74,4 +74,4 @@ yml = ["pyyaml"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.8"
-content-hash = "0fa8846fca19533c3a23d0d8e6209c59fd0a01a1c08c83b0659292e341e22531"
+content-hash = "c7d621b5d0bf5410b7e7b436d97cf13a941773b8018f587b54ad579335fc5777"
