@@ -6,6 +6,7 @@
 /projects/local_file_sync/_remote_snapshot.json
 /projects/ora_car_energy_statistics/_dataset.json
 /projects/readme_translator/config.yaml
+/projects/rtmp_server/records/*
 
 __pycache__/
 dist/
