@@ -1,54 +1,50 @@
 import streamlit as st
 import streamlit_canary as sc
+from collections import deque
 from lk_utils import fs
 from lk_utils import dedent
 from os.path import realpath
 
-if not (_data := sc.session.get_data(1)):
-    dir1 = r'C:/Likianta/workspace/dev.master.likianta'
-    dir2 = r'C:/Likianta/workspace/com.jlsemi.likianta'
+_data: dict  # {'preset': [str, ...], 'history': [str, ...]}
+if not (_data := sc.session.get_data(2)):
     _data.update({
-        'preset_dirs': tuple(sorted(
-            (
-                f'{dir1}/airmise/airmise',
-                f'{dir1}/argsense-cli/argsense',
-                f'{dir1}/depsland',
-                f'{dir1}/lk-logger/lk_logger',
-                f'{dir1}/lk-utils/lk_utils',
-                f'{dir1}/mini-toolbox/projects/conflore/conflore',
-                f'{dir1}/mini-toolbox/projects/fake_typing/fake_typing',
-                f'{dir1}/pinkrain/pinkrain',
-                f'{dir1}/pyapp-window/pyapp_window',
-                f'{dir1}/pyportable-crypto/pyportable_crypto',
-                f'{dir1}/python-tree-shaking/tree_shaking',
-                f'{dir1}/qmlease/qmlease',
-                f'{dir1}/remote-ipython/remote_ipython',
-                f'{dir1}/streamlit-canary/streamlit_canary',
-                f'{dir2}/batch-dump-registers/batch_dump_registers',
-                f'{dir2}/debug-memory-ui/debug_memory_ui',
-                f'{dir2}/gaemei-test-database',
-                f'{dir2}/hummingbird-sdk-refactor/hummingbird',
-                f'{dir2}/omni-driver-kit/omni_driver_kit',
-                f'{dir2}/phy-driver-base',
-            ),
+        'preset': tuple(sorted(
+            fs.load(fs.xpath('preset.yaml')),
             key=lambda x: x.rsplit('/', 1)[1],
-        ))
+        )),
+        'history': deque(maxlen=20),
     })
 
 
 def main() -> None:
     with st.container(border=True):
         input_holder = st.empty()
-        preset = st.radio(
-            'Quick select',
-            _data['preset_dirs'],
-            format_func=lambda x: x.rsplit('/', 1)[1]
-        )
+        tabs = iter(st.tabs(('Quick select', 'History select')))
+        with next(tabs):
+            preset = st.radio(
+                'Select from preset',
+                _data['preset'],
+                format_func=lambda x: x.rsplit('/', 1)[1]
+            )
+        with next(tabs):
+            def shortify_path(path: str) -> str:
+                segs = path.split('/')
+                if len(segs) > 4:
+                    return '{}/{}/.../{}/{}'.format(
+                        segs[0], segs[1], segs[-2], segs[-1]
+                    )
+                else:
+                    return path
+            
+            hist = st.radio(
+                'Select from history',
+                _data['history'],
+                format_func=shortify_path
+            )
         with input_holder:
             path_i = st.text_input('Source', placeholder=preset)
             if path_i:
                 path_i = fs.normpath(path_i)
-                assert fs.exist(path_i)
             else:
                 path_i = preset
     
@@ -79,9 +75,26 @@ def main() -> None:
     ))
     
     if sc.long_button('Make link', type='primary', disabled=fs.exist(path_o)):
+        assert fs.exist(path_i)
         print('symlink: {} -> {}'.format(path_i, path_o), ':r2')
         fs.make_link(path_i, path_o)
         st.rerun()
+
+
+# def _quick_select():
+#     input_holder = st.empty()
+#     preset = st.radio(
+#         'Quick select',
+#         _data['preset'],
+#         format_func=lambda x: x.rsplit('/', 1)[1]
+#     )
+#     with input_holder:
+#         path_i = st.text_input('Source', placeholder=preset)
+#         if path_i:
+#             path_i = fs.normpath(path_i)
+#             assert fs.exist(path_i)
+#         else:
+#             path_i = preset
 
 
 if __name__ == '__main__':
