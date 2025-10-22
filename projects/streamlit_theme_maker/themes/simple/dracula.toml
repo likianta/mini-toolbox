@@ -1,0 +1,7 @@
+# https://github.com/dracula/streamlit/blob/master/src/config.toml
+[theme]
+base = "dark"
+backgroundColor = "#282a36"
+secondaryBackgroundColor = "#44475a"
+primaryColor = "#bd93f9"
+textColor = "#f8f8f2"

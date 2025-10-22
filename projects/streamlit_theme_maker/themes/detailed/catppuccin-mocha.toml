@@ -1,0 +1,19 @@
+[theme]
+base = "dark"
+backgroundColor = "#1e1e2e"
+secondaryBackgroundColor = "#11111b"
+primaryColor = "#3d7ce4"
+textColor = "#cdd6f4"
+redColor = "#f38ba8"
+orangeColor = "#fab387"
+yellowColor = "#f9e2af"
+blueColor = "#89b4fa"
+greenColor = "#a6e3a1"
+violetColor = "#cba6f7"
+grayColor = "#7f849c"
+linkColor = "#89b4fa"
+linkUnderline = true
+codeBackgroundColor = "#11111b"
+borderColor = "#6c7086"
+showWidgetBorder = false
+showSidebarBorder = false
